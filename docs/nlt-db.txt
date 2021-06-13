@@ -1,0 +1,73 @@
+class TDatabaseControl
+
+Usage:
+	const db = new nlt.db.TDatabaseControl(filename, {accessmode})
+	
+Constructor:
+		TDatabaseControl.constructor(filename, accessmode = {})
+			filename:	path to the sqlite3 database file. If a physical file path is specified
+						the file must exist and be at least readable. Opening may fail or errors
+						may occur alter if a readonly database file is opened, but no readonly 
+						access mode (see below) is specified.
+						sqlite3 supports memory only databases, for creating one specify
+						:memory:
+						as filename.
+			accessmode: Set options in a small json set.
+						readonly:	boolean. Set to true to open a db file read only (default: false)
+						fileMustExist:	boolean. If set to true an error will be thrown if the db file does
+										not exist instead of creating a new empty file. Does not affect memory
+										databases. Default: false
+						timeout:	the number of milliseconds to wait when executing queries on a locked database,
+									before throwing a SQLITE_BUSY error (default: 5000).
+						verbose:	a function that gets called with every SQL string executed by the database connection (default: null).
+						
+Sync functions
+	function insertQuery(cmdline: string): number;
+		Executes a non-select type of sql query, like INSERT or PRAGMA
+		Returns the number of rows affected or -1 if an error happens.
+		
+		Example
+			dbc.insertQuery(`INSERT INTO users (name, age) VALUES ('Bob', '23');`);
+		
+		Caveat:
+			Single ' are special characters for sqlite3. If you wish to insert text with ' inside them
+			double every occurence before sending them to insertQuery. Failure to doing so will
+			result in errors or a possible sql injection
+	
+	function selectQuery(cmdline: string): array of JSON;
+		Executes a SELECT type sql query.
+		Returns an array JSON set of the results or -1 of something bad happened.
+		Return value can be handled as an associative array OMGScoots
+		
+		Example:
+			let rrows = db.selectQuery(`SELECT * FROM users WHERE age='19' ORDER BY id ASC;`);
+			if (rrows === -1){
+				console.log(`Error running query`);
+				return;
+				}
+			if (rrows.length===0){
+				console.log(`Nobody is aged 19`);
+				return;
+				}
+			console.log(`people aged 19:`);	
+			for(let i=0;i<rrows.length;i++){
+				console.log(`${rrows[0].name}`);
+			}	
+			
+	function stat(): string;
+		Returns a string about a databases sqlite3 stats:
+			-open: is a connection open
+			-inTransaction: is the db is in a middle of a transaction
+			-name: name of the db
+			-memory: is the db a memory database or not
+			-readonly: is the db opened in ro or not.
+			
+Promise functions:
+	function PinsertQuery(cmdline: string): Promise(resolve, reject)
+		Basically insertQuery. Resolves on success, rejects in case of an error (invalid syntax, repeated unique, file not writeable etc.).
+		Dankerman note: 0 rows affected counts as resolve.
+		
+	function PselectQuery(cmdline: string): Promise(resolve, reject)
+		Basically selectQuery. Resolves of succes, rejects in case of an error (invalid syntax etc.).
+		Dankerman note: 0 rows selected acounts as resolve.
+			
