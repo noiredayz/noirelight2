@@ -20,14 +20,14 @@
     "irc"
   ],
   "dependencies": {
-	"got": "^11.8.2",
-	"set-terminal-title": "^1.0.1",
-	"graphql": "^15.5.0",
-	"better-sqlite3": "^7.4.1",
-	"mime-types": "^2.1.31",
-	"reconnecting-websocket": "^4.4.0",
-	"ws": "^7.4.6",
-	"dank-twitch-irc": "^4.3.0"	
+    "got": "^11.8.2",
+    "set-terminal-title": "^1.0.1",
+    "graphql": "^15.5.0",
+    "better-sqlite3": "^7.4.1",
+    "mime-types": "^2.1.31",
+    "reconnecting-websocket": "^4.4.0",
+    "ws": "^7.4.6",
+    "dank-twitch-irc": "^4.3.0"
   },
   "author": "Noiredayz",
   "license": "AGPL-3.0-or-later",

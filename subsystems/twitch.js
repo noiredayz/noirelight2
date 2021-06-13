@@ -121,11 +121,9 @@ function onReady(){
 	catch(err){
 		nlt.util.printtolog(LOG_WARN, `<twitch> Cannot read latest commit ORIG_HEAD: ${err}`);
 	}
-	console.log("file read");
 	if(f){
 		cmstr="commit: "+String(f).substr(0, 6)+", ";
 	}
-	console.log("printing output");
 	postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `noirePls connected (${cmstr}session: ${nlt.starttime})`);
 	postmsg(nlt.chctl.findChannel("supinic", "twitch"), `noirelight2 v${nlt.c.bver} started (${cmstr}session: ${nlt.starttime})`);
 	
