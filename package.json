@@ -20,7 +20,7 @@
     "irc"
   ],
   "dependencies": {
-	"got". "^11.8.2",
+	"got": "^11.8.2",
 	"set-terminal-title": "^1.0.1",
 	"graphql": "^15.5.0",
 	"better-sqlite3": "^7.4.1",
