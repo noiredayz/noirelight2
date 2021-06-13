@@ -1,0 +1,38 @@
+{
+  "name": "noirelight2",
+  "version": "0.5.0",
+  "description": "multiplatform chatbot",
+  "main": "noirelight.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "return \"no test\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noiredayz/noirelight2.git"
+  },
+  "keywords": [
+    "chatbot",
+    "twitch",
+    "irc"
+  ],
+  "dependencies": {
+	"got". "^11.8.2",
+	"set-terminal-title": "^1.0.1",
+	"graphql": "^15.5.0",
+	"better-sqlite3": "^7.4.1",
+	"mime-types": "^2.1.31",
+	"reconnecting-websocket": "^4.4.0",
+	"ws": "^7.4.6",
+	"dank-twitch-irc": "^4.3.0"	
+  },
+  "author": "Noiredayz",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/noiredayz/noirelight2/issues"
+  },
+  "homepage": "https://github.com/noiredayz/noirelight2#readme"
+}
