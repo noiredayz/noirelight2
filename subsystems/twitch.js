@@ -64,7 +64,6 @@ function ttvAuthenticate(forceUpdate=false){
 			reject(err);
 			return;
 			}
-			//nlt.util.printtolog(LOG_DBG, `<twitch> Auth reply: ${JSON.stringify(twAuth)}`);
 			nlt.cache.deld("helix_bearer");
 			nlt.cache.setd("helix_bearer", twAuth.access_token, twAuth.expires_in);
 			nlt.util.printtolog(LOG_INFO, `<twitch> Helix token updated, expires in ${nlt.util.donktime(twAuth.expires_in)}`);
@@ -103,6 +102,7 @@ function setEventHandlers(){
 	twitchclient.on("close", onClose);
 	twitchclient.on("error", onError);
 	twitchclient.on("PRIVMSG", onMessageArrive);
+	twitchclient.on("RECONNECT", onReconnect);
 }
 
 function onConnecting(){
@@ -113,7 +113,6 @@ function onConnect(){
 }
 function onReady(){
 	nlt.util.printtolog(LOG_WARN, `<dti> Login successful. Chatclient is ready.`);
-	//TODO: make a better way to announce reconnects okayeg
 	let f, cmstr="";
 	try{
 		f = nlt.fs.readFileSync(process.cwd()+"/.git/ORIG_HEAD");
@@ -125,12 +124,15 @@ function onReady(){
 		cmstr="commit: "+String(f).substr(0, 6)+", ";
 	}
 	postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `noirePls connected (${cmstr}session: ${nlt.starttime})`);
-	postmsg(nlt.chctl.findChannel("supinic", "twitch"), `noirelight2 v${nlt.c.bver} started (${cmstr}session: ${nlt.starttime})`);
 	
 	joinChannels();
 }
 function onClose(){
 	nlt.util.printtolog(LOG_WARN, `<dti> Connection to TMI was closed.`);
+}
+
+function onReconnect(){
+	nlt.util.printtolog(LOG_WARN, `<dti> Client reconnecting per TMI request`);
 }
 function onError(ierror){
 	nlt.util.printtolog(LOG_WARN, `<dti> Client encountered a TMI error: ${ierror}`);
