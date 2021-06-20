@@ -115,7 +115,7 @@ function onReady(){
 	nlt.util.printtolog(LOG_WARN, `<dti> Login successful. Chatclient is ready.`);
 	let f, cmstr="";
 	try{
-		f = nlt.fs.readFileSync(process.cwd()+"/.git/ORIG_HEAD");
+		f = nlt.fs.readFileSync(process.cwd()+"/.git/refs/heads/main");
 	}
 	catch(err){
 		nlt.util.printtolog(LOG_WARN, `<twitch> Cannot read latest commit ORIG_HEAD: ${err}`);
