@@ -323,7 +323,13 @@ function ping(){
 	});
 }
 
+function sendwhisper(unick, msg){
+	if(!unick || !msg) return;
+	twitchclient.whisper(unick, msg);
+}
+
 exports.Start = Start;
+exports.sendwhisper = sendwhisper;
 exports.pbotBanphraseCheck = pbotBanphraseCheck;
 exports.cdctl = twcdctl;
 exports.postmsg = postmsg;
