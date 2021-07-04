@@ -9,7 +9,7 @@
 </head>
 <body>
 <b>Command prefix is } in every channel.</b><br>
-<table>
+<table style="border: 2px solid white; border-collapse: collapse;">
 	<tr>
 		<td>Command</td>
 		<td>Aliases</td>
@@ -17,6 +17,49 @@
 		<td>Description</td>
 		<td>Permissions</td>
 		<td>Code</td>
+	</tr>
+	<tr>
+		<td>Banphrase check</td>
+		<td></td>
+		<td><code>}bancheck [channel] text</code></td>
+		<td>Tests a given piece of text against the Pajbot1 banphrase API <img src="https://cdn.frankerfacez.com/emoticon/611303/1" alt="MODERATE"><br>
+		Channel must be known and have a pajbot URL set.<br>
+		<b>Important:</b> this command cannot query pb2 or any other bots.
+		</td>
+		<td>everyone</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/bancheck" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
+		<td>Batch file echo</td>
+		<td></td>
+		<td><code>}batch filename</code></td>
+		<td>Prints out the content of a specified text file line-by-line in the current chat.<br>
+		Files must be located in [project root]/batch directory.<br>
+		Empty lines and lines starting with # are ignored.
+		</td>
+		<td>operator</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/batch" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
+		<td>BetterTTV emote search</td>
+		<td>bttv</td>
+		<td><code>}bttvsearch [author:]emotename [optional ID 1-50]</code></td>
+		<td>Searches for a BTTV emote if the given name. <img src="https://cdn.betterttv.net/emote/5e500538e383e37d5d9dd3ec/1x" alt="YEAHBUTBTTV"><br>
+		You may specify the author if you know which one you need like &quot;nightdev:bttvNice&quot;<br>
+		The search returns the last 50 emotes fitting the query. You can specify which one you want to see.<br>
+		Note: search is "starts with" server side, intentionally. I can't do much about it.</td>
+		<td>everyone</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/bttvsearch" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
+		<td>debug</td>
+		<td>exec</td>
+		<td><code>}debug some.jsExpression()</code></td>
+		<td>Executes a javascript expression and returns its value.<br>
+		If ran as "exec" it just executes it and won't returns anything, unless there was an error.
+		</td>
+		<td>operator</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/debug" target="_blank">GitHub</a></td>
 	</tr>
 	<tr>
 		<td>Ping</td>
@@ -49,10 +92,25 @@
 		<td></td>
 		<td><code>}stcheck channel</code></td>
 		<td>Grabs a give channels auto generated thumbnail, then checks it<br>
-		with DeepAI NSFW check service then returns the results. <img src="https://cdn.betterttv.net/emote/60ccf3bf8ed8b373e4215f11/1x"></td>
+		with <a href="https://deepai.org/machine-learning-model/nsfw-detector" target="_blank">DeepAI NSFW check</a> service then returns the results. <img src="https://cdn.betterttv.net/emote/60ccf3bf8ed8b373e4215f11/1x" alt="BOOBA"></td>
 		<td>everyone</td>
 		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/streamthumb" target="_blank">GitHub</a></td>
 	</tr>
+	<tr>
+		<td>VeryPog variation list</td>
+		<td>verypogging<br>verypoglist<br>verypogs</td>
+		<td><code>}verypog</code></td>
+		<td>Prints out an incomplete list of VeryPog emote variants. <img src="https://cdn.betterttv.net/emote/5fc3bfe69d35484633448ac1/1x" alt="PogCheck"><br>
+		You can use }bttv or }ffz to search for them
+		</td>
+		<td>everyone</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/streamthumb" target="_blank">GitHub</a></td>
+	</tr>
+	
 </table>
+<p>
+	<a href="http://validator.w3.org/check?uri=referer"><img
+		src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>
+</p>
 </body>
 </html>
