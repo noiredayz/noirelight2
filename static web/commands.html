@@ -8,7 +8,7 @@
 <title>noires_bot command list</title>
 </head>
 <body>
-<b>Command prefix is } in every channel.</b><br>
+<b>Command prefix is { in every channel.</b><br>
 <table style="border: 2px solid white; border-collapse: collapse;">
 	<tr>
 		<td>Command</td>
@@ -21,7 +21,7 @@
 	<tr>
 		<td>Banphrase check</td>
 		<td></td>
-		<td><code>}bancheck [channel] text</code></td>
+		<td><code>{bancheck [channel] text</code></td>
 		<td>Tests a given piece of text against the Pajbot1 banphrase API <img src="https://cdn.frankerfacez.com/emoticon/611303/1" alt="MODERATE"><br>
 		Channel must be known and have a pajbot URL set.<br>
 		<b>Important:</b> this command cannot query pb2 or any other bots.
@@ -32,7 +32,7 @@
 	<tr>
 		<td>Batch file echo</td>
 		<td></td>
-		<td><code>}batch filename</code></td>
+		<td><code>{batch filename</code></td>
 		<td>Prints out the content of a specified text file line-by-line in the current chat.<br>
 		Files must be located in [project root]/batch directory.<br>
 		Empty lines and lines starting with # are ignored.
@@ -43,7 +43,7 @@
 	<tr>
 		<td>BetterTTV emote search</td>
 		<td>bttv</td>
-		<td><code>}bttvsearch [author:]emotename [optional ID 1-50]</code></td>
+		<td><code>{bttvsearch [author:]emotename [optional ID 1-50]</code></td>
 		<td>Searches for a BTTV emote if the given name. <img src="https://cdn.betterttv.net/emote/5e500538e383e37d5d9dd3ec/1x" alt="YEAHBUTBTTV"><br>
 		You may specify the author if you know which one you need like &quot;nightdev:bttvNice&quot;<br>
 		The search returns the last 50 emotes fitting the query. You can specify which one you want to see.<br>
@@ -54,7 +54,7 @@
 	<tr>
 		<td>debug</td>
 		<td>exec</td>
-		<td><code>}debug some.jsExpression()</code></td>
+		<td><code>{debug some.jsExpression()</code></td>
 		<td>Executes a javascript expression and returns its value.<br>
 		If ran as "exec" it just executes it and won't returns anything, unless there was an error.
 		</td>
@@ -64,7 +64,7 @@
 	<tr>
 		<td>echo</td>
 		<td>eecho</td>
-		<td><code>}echo text</code> or <code>}eecho platform-channel text</code></td>
+		<td><code>{echo text</code> or <code>{eecho platform-channel text</code></td>
 		<td>Echo makes the bot say something in the current channel.<br>eecho makes the bot say something in an external channel.<br>
 		In case of eecho the channel must be in single user or normal mode.<br>
 		Replied text is subject to banphrases.
@@ -75,7 +75,7 @@
 	<tr>
 		<td>ffzsearch</td>
 		<td>ffz</td>
-		<td><code>}ffz [uploader:]emotename [id 1-50]</code></td>
+		<td><code>{ffz [uploader:]emotename [id 1-50]</code></td>
 		<td>Finds you an emote from FrankerFacez.<br>
 		Emotes are ordered by creation date, descending.<br>
 		If there are more than one result you can specify which one you need.
@@ -86,7 +86,7 @@
 	<tr>
 		<td>help</td>
 		<td></td>
-		<td><code>}help topic</code></td>
+		<td><code>{help topic</code></td>
 		<td>Get help about a certain topic, usually a command name or alias.<br>
 		Note: some commands have extra help for aliases that do something different.</td>
 		<td>everyone</td>
@@ -104,7 +104,7 @@
 	<tr>
 		<td>Join channel</td>
 		<td></td>
-		<td><code>}joinchannel channel chmod</code></td>
+		<td><code>{joinchannel channel chmod</code></td>
 		<td>Adds a twitch channel to the records. If the specified channel mode is not 0 also joins it.</td>
 		<td>operator</td>
 		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/joinchannel" target="_blank">GitHub</a></td>
@@ -112,7 +112,7 @@
 	<tr>
 		<td>Ping</td>
 		<td></td>
-		<td><code>}ping</code></td>
+		<td><code>{ping</code></td>
 		<td>Ping the bot for some stats :)<br>See also: <code>eping, version, node</code></td>
 		<td>everyone</td>
 		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/ping" target="_blank">GitHub</a></td>
@@ -120,7 +120,7 @@
 	<tr>
 		<td>Extended Ping</td>
 		<td></td>
-		<td><code>}eping</code></td>
+		<td><code>{eping</code></td>
 		<td>Ping the bot for more stats<br>See also: <code>ping, version, node</code></td>
 		<td>everyone</td>
 		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/ping" target="_blank">GitHub</a></td>
@@ -128,7 +128,7 @@
 	<tr>
 		<td>pogchamp</td>
 		<td></td>
-		<td><code>}pogchamp [date in yyyy-mm-dd]</code></td>
+		<td><code>{pogchamp [date in yyyy-mm-dd]</code></td>
 		<td>Returns data about a PogChamp variant from the time when it was daily replaced<br>
 		OG PogChamp was remove don 2021-01-06. On the 7th we hade none Sadge. from 01-08 to 02-11 we had a new one daily<br>
 		On 02-12 a voting took place and we <img src="https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/1.0" alt="Komodo"> since then.</td>
@@ -138,7 +138,7 @@
 	<tr>
 		<td>session</td>
 		<td></td>
-		<td><code>}session</code></td>
+		<td><code>{session</code></td>
 		<td>Returns the ID of the current session, which is essentially the UNIX timestamp<br>
 		of the time when the bot was started up.</td>
 		<td>everyone</td>
@@ -148,7 +148,7 @@
 	<tr>
 		<td>Stream thumbnail</td>
 		<td>st</td>
-		<td><code>}streamthumb channel [resolution]</code></td>
+		<td><code>{streamthumb channel [resolution]</code></td>
 		<td>Returns a link to an automatically generated thumbnail<br>
 		for a given twitch channel. You may also specify a resolution:<br>
 		<code>160p 360p 480p 720p 1080p</code></td>
@@ -158,7 +158,7 @@
 	<tr>
 		<td>Stream thumbnail with NSFW check</td>
 		<td></td>
-		<td><code>}stcheck channel</code></td>
+		<td><code>{stcheck channel</code></td>
 		<td>Returns the specified channel's auto generated thumbnail, then checks it<br>
 		with <a href="https://deepai.org/machine-learning-model/nsfw-detector" target="_blank">DeepAI NSFW check</a> service then returns the results. <img src="https://cdn.betterttv.net/emote/60ccf3bf8ed8b373e4215f11/1x" alt="BOOBA"></td>
 		<td>everyone</td>
@@ -167,7 +167,7 @@
 	<tr>
 		<td>Twitch Lotto</td>
 		<td></td>
-		<td><code>}tl</code></td>
+		<td><code>{tl</code></td>
 		<td>Picks an image from a large pile (300k++) of imgur images that were previously posted in various channels<br>
 		then performs an NSFW check on them then returns the results.<br>
 		Inspired by the Supibot command of the same name, but Pepega implementation cuz im bad saj</td>
@@ -177,9 +177,9 @@
 	<tr>
 		<td>VeryPog variation list</td>
 		<td>verypogging<br>verypoglist<br>verypogs</td>
-		<td><code>}verypog</code></td>
+		<td><code>{verypog</code></td>
 		<td>Prints out an incomplete list of VeryPog emote variants. <img src="https://cdn.betterttv.net/emote/5fc3bfe69d35484633448ac1/1x" alt="PogCheck"><br>
-		You can use }bttv or }ffz to search for them
+		You can use {bttv or {ffz to search for them
 		</td>
 		<td>everyone</td>
 		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/streamthumb" target="_blank">GitHub</a></td>
@@ -187,7 +187,7 @@
 	<tr>
 		<td>Weather</td>
 		<td></td>
-		<td><code>}weather location</code></td>
+		<td><code>{weather location</code></td>
 		<td>Gets the current weather of a given location. Data is from <a href="https://openweathermap.org" target="_blank">Open Weather Map</a><br>
 		You may specify a state code and/or country code, for example for Haw River, North Carolina, USA:
 		<ul>
@@ -201,7 +201,7 @@
 	<tr>
 		<td>Wiby.me search</td>
 		<td></td>
-		<td><code>}wiby [-i index 0-11 or random] search-terms</code></td>
+		<td><code>{wiby [-i index 0-11 or random] search-terms</code></td>
 		<td>Finds something on <a href="https://wiby.me" target="_blank">wiby.me</a> a search engine for ol' school Web 1.0 websites.<br>
 		Frames, counters, MIDI music, flashing gifs and muda faken static HTML and actual user made content.<br>
 		You may specify an index 0-11 or random. If there are less results than specified it returns the last one.</td>
@@ -219,35 +219,35 @@
 		<td>Description</td>
 	</tr>
 	<tr>
-		<td><code>}website</code></td>
+		<td><code>{website</code></td>
 		<td>Returns the website URL of the bot.</td>
 	</tr>
 	<tr>
-		<td><code>}api</code></td>
+		<td><code>{api</code></td>
 		<td>Returns the URL of the API of the bot if its operational currently.</td>
 	</tr>
 	<tr>
-		<td><code>}bot</code></td>
+		<td><code>{bot</code></td>
 		<td>Returns the name and operator of the bot</td>
 	</tr>
 	<tr>
-		<td><code>}version</code></td>
+		<td><code>{version</code></td>
 		<td>Version information</td>
 	</tr>
 	<tr>
-		<td><code>}nlt2</code></td>
+		<td><code>{nlt2</code></td>
 		<td>Copesen</td>
 	</tr>
 	<tr>
-		<td><code>}nlt1</code></td>
+		<td><code>{nlt1</code></td>
 		<td>TrollDespair we don't talk about noirelight1</td>
 	</tr>
 	<tr>
-		<td><code>}node</code></td>
+		<td><code>{node</code></td>
 		<td>Node.js version information of the current instance</td>
 	</tr>
 	<tr>
-		<td><code>}channelmode</code></td>
+		<td><code>{channelmode</code></td>
 		<td>Returns the current channel mode (single or normal if you can run it)</td>
 	</tr>
 	<tr>
