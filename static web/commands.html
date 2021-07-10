@@ -62,6 +62,54 @@
 		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/debug" target="_blank">GitHub</a></td>
 	</tr>
 	<tr>
+		<td>echo</td>
+		<td>eecho</td>
+		<td><code>}echo text</code> or <code>}eecho platform-channel text</code></td>
+		<td>Echo makes the bot say something in the current channel.<br>eecho makes the bot say something in an external channel.<br>
+		In case of eecho the channel must be in single user or normal mode.<br>
+		Replied text is subject to banphrases.
+		</td>
+		<td>operator</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/echo" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
+		<td>ffzsearch</td>
+		<td>ffz</td>
+		<td><code>}ffz [uploader:]emotename [id 1-50]</code></td>
+		<td>Finds you an emote from FrankerFacez.<br>
+		Emotes are ordered by creation date, descending.<br>
+		If there are more than one result you can specify which one you need.
+		</td>
+		<td>everyone</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/ffzsearch" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
+		<td>help</td>
+		<td></td>
+		<td><code>}help topic</code></td>
+		<td>Get help about a certain topic, usually a command name or alias.<br>
+		Note: some commands have extra help for aliases that do something different.</td>
+		<td>everyone</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/help" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
+		<td>Internal message postprocessor</td>
+		<td></td>
+		<td>Cannot be ran manually</td>
+		<td>Postprocesses messages that are not commands and takes an action depending on the content<br>
+		of the message such as counts an emote or joins a huwobot raid.</td>
+		<td>internal only</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/internal-postprocess-message" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
+		<td>Join channel</td>
+		<td></td>
+		<td><code>}joinchannel channel chmod</code></td>
+		<td>Adds a twitch channel to the records. If the specified channel mode is not 0 also joins it.</td>
+		<td>operator</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/joinchannel" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
 		<td>Ping</td>
 		<td></td>
 		<td><code>}ping</code></td>
@@ -78,6 +126,26 @@
 		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/ping" target="_blank">GitHub</a></td>
 	</tr>
 	<tr>
+		<td>pogchamp</td>
+		<td></td>
+		<td><code>}pogchamp [date in yyyy-mm-dd]</code></td>
+		<td>Returns data about a PogChamp variant from the time when it was daily replaced<br>
+		OG PogChamp was remove don 2021-01-06. On the 7th we hade none Sadge. from 01-08 to 02-11 we had a new one daily<br>
+		On 02-12 a voting took place and we <img src="https://static-cdn.jtvnw.net/emoticons/v2/305954156/default/dark/1.0" alt="Komodo"> since then.</td>
+		<td>everyone</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/pogchamp" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
+		<td>session</td>
+		<td></td>
+		<td><code>}session</code></td>
+		<td>Returns the ID of the current session, which is essentially the UNIX timestamp<br>
+		of the time when the bot was started up.</td>
+		<td>everyone</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/session" target="_blank">GitHub</a></td>
+	</tr>
+	
+	<tr>
 		<td>Stream thumbnail</td>
 		<td>st</td>
 		<td><code>}streamthumb channel [resolution]</code></td>
@@ -91,10 +159,20 @@
 		<td>Stream thumbnail with NSFW check</td>
 		<td></td>
 		<td><code>}stcheck channel</code></td>
-		<td>Grabs a give channels auto generated thumbnail, then checks it<br>
+		<td>Returns the specified channel's auto generated thumbnail, then checks it<br>
 		with <a href="https://deepai.org/machine-learning-model/nsfw-detector" target="_blank">DeepAI NSFW check</a> service then returns the results. <img src="https://cdn.betterttv.net/emote/60ccf3bf8ed8b373e4215f11/1x" alt="BOOBA"></td>
 		<td>everyone</td>
 		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/streamthumb" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
+		<td>Twitch Lotto</td>
+		<td></td>
+		<td><code>}tl</code></td>
+		<td>Picks an image from a large pile (300k++) of imgur images that were previously posted in various channels<br>
+		then performs an NSFW check on them then returns the results.<br>
+		Inspired by the Supibot command of the same name, but Pepega implementation cuz im bad saj</td>
+		<td>requires<br>greenlist</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/tl" target="_blank">GitHub</a></td>
 	</tr>
 	<tr>
 		<td>VeryPog variation list</td>
@@ -106,8 +184,76 @@
 		<td>everyone</td>
 		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/streamthumb" target="_blank">GitHub</a></td>
 	</tr>
+	<tr>
+		<td>Weather</td>
+		<td></td>
+		<td><code>}weather location</code></td>
+		<td>Gets the current weather of a given location. Data is from <a href="https://openweathermap.org" target="_blank">Open Weather Map</a><br>
+		You may specify a state code and/or country code, for example for Haw River, North Carolina, USA:
+		<ul>
+		<li>Haw River</li>
+		<li>Haw River, NC</li>
+		<li>Haw River, NC, USA</li></ul>
+		</td>
+		<td>everyone</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/weather" target="_blank">GitHub</a></td>
+	</tr>
+	<tr>
+		<td>Wiby.me search</td>
+		<td></td>
+		<td><code>}wiby [-i index 0-11 or random] search-terms</code></td>
+		<td>Finds something on <a href="https://wiby.me" target="_blank">wiby.me</a> a search engine for ol' school Web 1.0 websites.<br>
+		Frames, counters, MIDI music, flashing gifs and muda faken static HTML and actual user made content.<br>
+		You may specify an index 0-11 or random. If there are less results than specified it returns the last one.</td>
+		<td>everyone</td>
+		<td><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/wiby" target="_blank">GitHub</a></td>
+	</tr>
 	
 </table>
+<table style="border: 2px solid white; border-collapse: collapse;">
+	<tr>
+		<td colspan="2">Oneliners FDM</td>
+	</tr>
+	<tr>
+		<td>Command</td>
+		<td>Description</td>
+	</tr>
+	<tr>
+		<td><code>}website</code></td>
+		<td>Returns the website URL of the bot.</td>
+	</tr>
+	<tr>
+		<td><code>}api</code></td>
+		<td>Returns the URL of the API of the bot if its operational currently.</td>
+	</tr>
+	<tr>
+		<td><code>}bot</code></td>
+		<td>Returns the name and operator of the bot</td>
+	</tr>
+	<tr>
+		<td><code>}version</code></td>
+		<td>Version information</td>
+	</tr>
+	<tr>
+		<td><code>}nlt2</code></td>
+		<td>Copesen</td>
+	</tr>
+	<tr>
+		<td><code>}nlt1</code></td>
+		<td>TrollDespair we don't talk about noirelight1</td>
+	</tr>
+	<tr>
+		<td><code>}node</code></td>
+		<td>Node.js version information of the current instance</td>
+	</tr>
+	<tr>
+		<td><code>}channelmode</code></td>
+		<td>Returns the current channel mode (single or normal if you can run it)</td>
+	</tr>
+	<tr>
+		<td colspan="2"><a href="https://github.com/noiredayz/noirelight2-commands/tree/main/basic_text_reply" target="_blank">Code at GitHub</a></td>
+	</tr>
+</table>	
 <p>
 	<a href="http://validator.w3.org/check?uri=referer"><img
 		src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>
