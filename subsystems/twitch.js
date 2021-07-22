@@ -329,6 +329,7 @@ function sendwhisper(unick, msg){
 }
 
 exports.Start = Start;
+exports.client = twitchclient;
 exports.sendwhisper = sendwhisper;
 exports.pbotBanphraseCheck = pbotBanphraseCheck;
 exports.cdctl = twcdctl;
