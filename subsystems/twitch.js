@@ -103,6 +103,7 @@ function setEventHandlers(){
 	twitchclient.on("error", onError);
 	twitchclient.on("PRIVMSG", onMessageArrive);
 	twitchclient.on("RECONNECT", onReconnect);
+	twitchclient.on("CLEARCHAT", onBan);
 }
 
 function onConnecting(){
@@ -189,6 +190,21 @@ async function onMessageArrive (inmsg) {
 			lastbing = nlt.util.getunixtime();
 			postmsg(channel, `${unick} FeelsDankMan 🤜 🔔`, undefined, false);
 		}
+	}
+}
+
+async function onBan(inMsg){
+	const minTO = 60*60*2;	//2h
+	let duration = inMsg.banDuration;
+	let channel = inMsg.channelName;
+	let username = inMsg.targetUsername;
+	if(inMsg.isPermaban()){
+		postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `MODS Clap #${channel} ${username} was permanently banned. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
+		return;
+	}
+	if(inMsg.isTimeout()){
+		if(duration>=minTO)
+			postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `MODS 👉🏽 #${channel} ${username} was timed out for ${nlt.util.donktime(duration)}. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
 	}
 }
 
