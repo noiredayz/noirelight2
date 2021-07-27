@@ -355,6 +355,26 @@ function sendwhisper(unick, msg){
 	twitchclient.whisper(unick, msg);
 }
 
+function ban(channel, unick, reason=undefined){
+	return new Promise((resolve, reject) => {
+		twitchclient.ban(channel.toLowerCase(), unick.toLowerCase(), reason).then(()=> {
+			resolve(true);
+		}).catch((err) =>{
+			reject(err);
+		});
+	});
+}
+
+function timeout(channel, unick, length, reason=undefined){
+	return new Promise((resolve, reject) => {
+		twitchclient.timeout(channel.toLowerCase(), unick.toLowerCase(), length, reason).then(()=> {
+			resolve(true);
+		}).catch((err) =>{
+			reject(err);
+		});
+	});
+}
+
 exports.Start = Start;
 exports.client = twitchclient;
 exports.sendwhisper = sendwhisper;
@@ -362,5 +382,7 @@ exports.pbotBanphraseCheck = pbotBanphraseCheck;
 exports.cdctl = twcdctl;
 exports.postmsg = postmsg;
 exports.ping = ping;
+exports.ban = ban;
+exports.timeout = timeout;
 exports.joinTwitchChannel = joinTwitchChannel;
 exports.ttvAuthenticate = ttvAuthenticate;
