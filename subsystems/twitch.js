@@ -104,6 +104,7 @@ function setEventHandlers(){
 	twitchclient.on("PRIVMSG", onMessageArrive);
 	twitchclient.on("RECONNECT", onReconnect);
 	twitchclient.on("CLEARCHAT", onBan);
+	twitchclient.on("USERSTATE", onUserState);
 }
 
 function onConnecting(){
@@ -206,6 +207,16 @@ async function onBan(inMsg){
 		if(duration>=minTO)
 			postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `MODS 👉🏽 #${channel} ${username} was timed out for ${nlt.util.donktime(duration)}. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
 	}
+}
+
+async function onUserState(inmsg){
+	const chid = nlt.chctl.findChannel(inmsg.channelName, "twitch");
+	if(chid === -1){
+		printtolog(LOG_WARN, `<tw-userstate> warning: received USERSTATE from unknown channel ${inmsg.channelName}`);
+		return;
+	}
+	nlt.cache.deld("twitch-userstate-"+nlt.channels[chid].name);
+	nlt.cache.setd("twitch-userstate-"+nlt.channels[chid].name, inmsg, 0);
 }
 
 async function postmsg(target_channel, tmsg, flags=[]){
