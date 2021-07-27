@@ -194,7 +194,7 @@ async function onMessageArrive (inmsg) {
 }
 
 async function onBan(inMsg){
-	const minTO = 60*60*2;	//2h
+	const minTO = 60*60*4;	//4h
 	let duration = inMsg.banDuration;
 	let channel = inMsg.channelName;
 	let username = inMsg.targetUsername;
