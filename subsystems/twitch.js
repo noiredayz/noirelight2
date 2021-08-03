@@ -11,6 +11,7 @@ let tmiping 	= 0;
 let twchannels	= [];
 let ps_started	= 0;
 let twcdctl		= new nlt.util.TCooldownController("twitch");
+const joinDelay = 580; //in ms, limit is 20 joins per 10 secs for normal accounts
 
 
 function ttvAuthenticate(forceUpdate=false){
@@ -299,10 +300,23 @@ async function joinTwitchChannel(target_channel){
 	});
 }
 
-function joinChannels(){
+async function joinChannels(){
+	let stime, ftime, failed=false;
 	for(const ch of nlt.channels){
 		if(ch.chmode != "0" && ch.context === "twitch"){
-			joinTwitchChannel(ch.name);
+			stime = new Date;
+			failed = false;
+			try { twitchclient.join(ch.name); }
+			catch(err){
+				nlt.util.printtolog(LOG_WARN, `<twitch> Error while joining channel ${ch.name}: ${err}`);
+				failed=true;
+			}
+			finally{
+				if(!failed)
+					nlt.util.printtolog(LOG_WARN, `<twitch> Successfully joined channel ${ch.name}`);
+				ftime = joinDelay - (new Date - stime);
+				if(ftime>0) await nlt.util.sleep(ftime);
+			}
 		}
 	}
 }
