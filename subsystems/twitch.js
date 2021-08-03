@@ -1,9 +1,5 @@
 "use strict";
-/* Logging levels */
-const LOG_NO	= 0;	//don't log
-const LOG_WARN	= 2;	//log warnings and handled errors
-const LOG_INFO	= 4;	//log more stuff
-const LOG_DBG	= 8;	//log fucking everything WAYTOODANK
+const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
 
 const { ChatClient} = require("dank-twitch-irc");
 let twitchclient;
