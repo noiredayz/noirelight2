@@ -181,7 +181,7 @@ async function onMessageArrive (inmsg) {
 	else
 		handled = nlt.cmd.process_special_message(inmsg, unick, channel, "twitch");
 	//run postprocessor on messages that look like a command but they aren't	
-	if(!handled){	
+	if(!handled)	
 		handled = nlt.cmd.process_special_message(inmsg, unick, channel, "twitch");
 	//if we got to this point then the message was not a command or a special line we handle as a command eShrug
 	const botname = new RegExp(nlt.c.twitch.username, "i");
