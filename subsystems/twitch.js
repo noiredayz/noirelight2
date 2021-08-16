@@ -192,7 +192,7 @@ async function onMessageArrive (inmsg) {
 }
 
 async function onBan(inMsg){
-	const minTO = 60*60*4;	//4h
+	const minTO = 60*60*6;	//6h which is higher than even the highest massping timeout
 	let duration = inMsg.banDuration;
 	let channel = inMsg.channelName;
 	let username = inMsg.targetUsername;

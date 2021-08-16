@@ -27,7 +27,7 @@
     "graphql": "^15.5.0",
     "mime-types": "^2.1.31",
     "reconnecting-websocket": "^4.4.0",
-    "replaceall", "^0.1.6",
+    "replaceall": "^0.1.6",
     "set-terminal-title": "^1.0.1",
     "ws": "^7.4.6"
   },
