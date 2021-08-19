@@ -8,7 +8,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "return \"no test\""
+    "test": "echo no test nam"
   },
   "repository": {
     "type": "git",
