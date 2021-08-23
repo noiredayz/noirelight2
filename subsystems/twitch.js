@@ -230,7 +230,7 @@ async function postmsg(target_channel, tmsg, flags=[]){
 	//sanitize text to dont screw with sqlite
 	let ibp = nlt.util.internal_banphrase(tmsg);
 	let outmsg = String(tmsg).replace(/'/g, "''");
-	await nlt.logdb.PinsertQuery(`INSERT INTO selfposts (session, time, channel, message, ibp) VALUES ('${nlt.starttime}', '${nlt.util.getunixtime()}', '${target_channel}', '${outmsg}', '${ibp}');`);
+	await nlt.logdb.PinsertQuery(`INSERT INTO selfposts (session, time, channel, message, ibp) VALUES ('${nlt.starttime}', '${nlt.util.getunixtime()}', '${nlt.channels[target_channel].name}', '${outmsg}', '${ibp}');`);
 	let antispam = nlt.channels[target_channel].getLts();
 	if(ibp){
 		outmsg = "Reply text triggered an internal banphrase.";
