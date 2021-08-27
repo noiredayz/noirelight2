@@ -8,6 +8,7 @@ old logs/
 commands-available/
 commands-enabled/
 leppunen_cytube.js
+bat/
 
 # ---> Node
 # Logs

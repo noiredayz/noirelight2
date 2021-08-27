@@ -1,5 +1,6 @@
 "use strict";
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
+const {printtolog} = require(process.cwd()+"/lib/nlt-tools.js");
 
 const { ChatClient} = require("dank-twitch-irc");
 let twitchclient;
