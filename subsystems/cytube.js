@@ -1,11 +1,28 @@
 "use strict";
-/* Logging levels */
-const LOG_NO	= 0;	//don't log
-const LOG_WARN	= 2;	//log warnings and handled errors
-const LOG_INFO	= 4;	//log more stuff
-const LOG_DBG	= 8;	//log fucking everything WAYTOODANK
+const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
+const {printtolog, stringCheck} = require(process.cwd()+"/lib/nlt-tools.js");
 
 let ctcdctl = new nlt.tools.TCooldownController("cytube");
 
+const Cytube = require("cytube-connector");
 
+let ctclient=new Object;
+
+
+function Start(){
+	if(!nlt.c.cytube){
+		printtolog(LOG_WARN, `<cytube> Settings are missing from config. Cannot start the subsystem.`);
+		return;
+	}
+	if(stringCheck(nlt.c.cytube.password) || stringCheck(nlt.c.cytube.username)){
+		printtolog(LOG_WARN, `<cytube> Settings are missing from config. Cannot start the subsystem.`);
+		return;
+	}
+	for (const c of nlt.channels){
+		if(c.context!="cytube") continue;
+		//NaM
+	}
+}
+
+function onReady(
 

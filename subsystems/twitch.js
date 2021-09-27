@@ -1,6 +1,6 @@
 "use strict";
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
-const {printtolog} = require(process.cwd()+"/lib/nlt-tools.js");
+const {printtolog, donktime, getunixtime} = require(process.cwd()+"/lib/nlt-tools.js");
 
 const { ChatClient} = require("dank-twitch-irc");
 let twitchclient;
@@ -76,15 +76,96 @@ function ttvAuthenticate(forceUpdate=false){
 	});
 }
 
-
-function Start(){
-	nlt.util.printtolog(LOG_WARN, `<twitch> Twitch Subsystem starting up TriHard 7`);
+function ttvGetAccessToken(){
+	return new Promise((resolve, reject) => {
 	let rrows;
-	rrows = nlt.maindb.selectQuery("SELECT * FROM auth WHERE keyname='twitch-oauth';");
-	if (!rrows || rrows.length===0){
-		nlt.util.printtolog(LOG_WARN, `<twitch> Fatal error: no oauth bearer token for twitch login. Please run the login service and store the data to the db.`);
+	rrows = nlt.maindb.selectQuery("SELECT * FROM auth WHERE keyname='twitch-access-token';");
+	if(rrows.length===0){
+		printtolog(LOG_WARN, `<twitch> Missing access token, trying to get a new one`);
+		rrows = nlt.maindb.selectQuery("SELECT * FROM auth WHERE keyname='twitch-oauth';");
+		const https_options = {
+			method: "POST",
+			url: `https://id.twitch.tv/oauth2/token?client_id=`+nlt.c.twitch.clientID+`&client_secret=`+nlt.c.twitch.clientSecret+`&code=`+rrows[0].data+`&grant_type=authorization_code&redirect_uri=http://localhost:7775/auth`,
+			headers: { 'User-Agent': nlt.c.userAgent },
+			timeout: 10000,
+			retry: 0
+		};
+		nlt.got(https_options).json().then((d) => {
+			printtolog(LOG_WARN, `<twitch> Received auth code, expires in ${donktime(d.expires_in)}`);
+			nlt.maindb.insertQuery(`INSERT INTO auth
+									(keyname, data, type, expires)
+									VALUES
+									('twitch-access-token', '${d.access_token}', 'access-token', '${getunixtime()+d.expires_in}');`);
+			nlt.maindb.insertQuery(`INSERT INTO auth
+									(keyname, data, type, expires)
+									VALUES
+									('twitch-refresh-token', '${d.refresh_token}', 'refresh-token', '0');`);
+			resolve(true);
+			return;
+			}).catch((err) => {
+				reject(err);
+				return;
+			});
+		} else {
+			printtolog(LOG_INFO, `<twitch> Twitch access-token already exists.`);
+			resolve(true);
+			return;
+		}
+});
+}
+
+function ttvRefreshToken(){
+	return new Promise((resolve, reject) => {
+		let rtok = nlt.maindb.selectQuery("SELECT * FROM auth WHERE keyname='twitch-refresh-token';");
+		if(rtok.length===0){
+			reject("missing tokens");
+			return;
+		}
+		const rURL = "https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token="+rtok[0].data+"&client_id="+nlt.c.twitch.clientID+"&client_secret="+nlt.c.twitch.clientSecret;
+		const https_options = {
+			method: "POST",
+			url: rURL,
+			headers: { 'User-Agent': nlt.c.userAgent },
+			timeout: 10000,
+			retry: 0,
+			throwHttpErrors: false
+		};
+		nlt.got(https_options).then((d)=>{
+			if(d.statusCode!=200){
+				reject(`refresh failure: HTTP ${d.statusCode}: ${d.error} ${d.message}`);
+				return;
+			} else {
+				const inData = JSON.parse(d.body);
+				printtolog(LOG_WARN, "<twitch> Got new access+refresh tokens, storing the new ones.");
+				nlt.maindb.insertQuery(`UPDATE auth SET data='${inData.access_token}' WHERE keyname='twitch-access-token';`);
+				nlt.maindb.insertQuery(`UPDATE auth SET data='${inData.refresh_token}' WHERE keyname='twitch-refresh-token';`);
+				resolve(1)
+			}
+		}).catch((err) => { reject(err); return;});
+		
+		
+	});
+}
+
+
+async function Start(){
+	nlt.util.printtolog(LOG_WARN, `<twitch> Twitch Subsystem starting up TriHard 7`);
+	try{
+		await ttvGetAccessToken();
+	}
+	catch(err){
+		nlt.util.printtolog(LOG_WARN, `<twitch> Error while trying to grab an access token: ${err}`);
 		process.exit(1);
 	}
+	try{
+		await ttvRefreshToken();
+	}
+	catch(err){
+		nlt.util.printtolog(LOG_WARN, `<twitch> Error while trying to refresh the access token: ${err}`);
+		process.exit(1);
+	}
+	let rrows;
+	rrows = nlt.maindb.selectQuery("SELECT * FROM auth WHERE keyname='twitch-access-token';");
 	twOauth = "oauth:" + rrows[0].data;
 	twitchclient = new ChatClient({username: nlt.c.twitch.username, password: twOauth, rateLimits: nlt.c.twitch.rateLimits});
 	setEventHandlers();
