@@ -1,6 +1,6 @@
 "use strict";
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
-const {printtolog, donktime, getunixtime} = require(process.cwd()+"/lib/nlt-tools.js");
+const {printtolog, donktime, getunixtime, sleep} = require(process.cwd()+"/lib/nlt-tools.js");
 
 const { ChatClient} = require("dank-twitch-irc");
 let twitchclient;
@@ -12,6 +12,7 @@ let tmiping 	= 0;
 let twchannels	= [];
 let ps_started	= 0;
 let twcdctl		= new nlt.util.TCooldownController("twitch");
+let msgqExtCmd	= "";
 const joinDelay = 580; //in ms, limit is 20 joins per 10 secs for normal accounts
 
 
@@ -227,6 +228,10 @@ function onError(ierror){
 		process.exit(1);
 		return;
 	}
+	if(String(ierror).match(/Connection closed due to error: Server did not PONG back: Timed out after waiting for response/)){
+		printtolog(LOG_WARN, `TMP being awesome as ever. Restarting the chatclient.`);
+		RestartTwitch();
+	}
 }
 
 async function onMessageArrive (inmsg) {
@@ -348,6 +353,11 @@ async function twmessagequeue(){
 			await nlt.util.sleep(100);
 			continue;
 		}
+		if(msgqExtCmd==="TERM"){
+			printtolog(LOG_WARN, `<twitch msgq> received TERM signal, message queue terminating.`);
+			msgqExtCmd="";
+			return;
+		}
 		while(!twitchclient.ready){
 			if (wecoo){
 				nlt.util.printtolog(LOG_WARN, "<tw-msgq> TMI is not operational. Pausing message queue.");
@@ -372,6 +382,25 @@ async function twmessagequeue(){
 		await nlt.msgqdb.PinsertQuery(`DELETE FROM mq WHERE id='${imq[0].id}';`);	
 		lastcmd = Date.now();
 	}
+}
+
+async function RestartTwitch(){
+	printtolog(LOG_WARN, `<twitch> Subsystem died, restarting it`);
+	msgqExtCmd="TERM";
+	while(msgqExtCmd==="TERM"){
+		await sleep(50);
+	}
+	await nlt.msgqdb.PinsertQuery(`DELETE FROM mq WHERE context='twitch';`);
+	try{
+		twitchclient.close();
+	}
+	catch(err){
+		printtolog(LOG_WARN, `<tw restart> Tried to close the chatclient properly, didn't work: ${err}`);
+	}
+	twitchclient.destroy();
+	twitchclient=undefined;
+	await sleep(2000);
+	Start();
 }
 
 
