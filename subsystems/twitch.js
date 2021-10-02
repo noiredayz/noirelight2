@@ -398,6 +398,7 @@ async function RestartTwitch(){
 	}
 	catch(err){
 		printtolog(LOG_WARN, `<tw restart> Tried to close the chatclient properly, didn't work: ${err}`);
+	}
 	twitchclient.destroy();
 	twitchclient=undefined;
 	printtolog(LOG_INFO, `<tw restart> Twitch client terminated, trying to start it agane`);
