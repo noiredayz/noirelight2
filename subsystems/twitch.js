@@ -229,7 +229,7 @@ function onError(ierror){
 		return;
 	}
 	if(String(ierror).match(/Connection closed due to error: Server did not PONG back: Timed out after waiting for response/)){
-		printtolog(LOG_WARN, `TMP being awesome as ever. Restarting the chatclient.`);
+		printtolog(LOG_WARN, `TMI being awesome as ever. Restarting the chatclient.`);
 		RestartTwitch();
 	}
 }
@@ -348,15 +348,15 @@ async function twmessagequeue(){
 	let imq, ctlwait;
 
 	while(1){
+		if(msgqExtCmd==="TERM"){
+			printtolog(LOG_WARN, `<twitch msgq> received TERM command, message queue terminating.`);
+			msgqExtCmd="";
+			return;
+		}
 		imq = await nlt.msgqdb.PselectQuery(`SELECT * FROM mq WHERE context='twitch' ORDER BY priority DESC, id ASC LIMIT 1;`);
 		if (imq.length === 0){
 			await nlt.util.sleep(100);
 			continue;
-		}
-		if(msgqExtCmd==="TERM"){
-			printtolog(LOG_WARN, `<twitch msgq> received TERM signal, message queue terminating.`);
-			msgqExtCmd="";
-			return;
 		}
 		while(!twitchclient.ready){
 			if (wecoo){
@@ -385,20 +385,22 @@ async function twmessagequeue(){
 }
 
 async function RestartTwitch(){
-	printtolog(LOG_WARN, `<twitch> Subsystem died, restarting it`);
+	printtolog(LOG_WARN, `<tw restart> Subsystem died, restarting it`);
+	printtolog(LOG_INFO, `<tw restart> Sending message queue the TERM command`);
 	msgqExtCmd="TERM";
 	while(msgqExtCmd==="TERM"){
 		await sleep(50);
 	}
+	printtolog(LOG_INFO, `<tw restart> Dropping remaining messages`);
 	await nlt.msgqdb.PinsertQuery(`DELETE FROM mq WHERE context='twitch';`);
 	try{
 		twitchclient.close();
 	}
 	catch(err){
 		printtolog(LOG_WARN, `<tw restart> Tried to close the chatclient properly, didn't work: ${err}`);
-	}
 	twitchclient.destroy();
 	twitchclient=undefined;
+	printtolog(LOG_INFO, `<tw restart> Twitch client terminated, trying to start it agane`);
 	await sleep(2000);
 	Start();
 }
