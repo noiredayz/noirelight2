@@ -11,6 +11,7 @@ let lastbing	= 0;
 let tmiping 	= 0;
 let twchannels	= [];
 let ps_started	= 0;
+let restart_run = 0;
 let twcdctl		= new nlt.util.TCooldownController("twitch");
 let msgqExtCmd	= "";
 const joinDelay = 580; //in ms, limit is 20 joins per 10 secs for normal accounts
@@ -385,6 +386,8 @@ async function twmessagequeue(){
 }
 
 async function RestartTwitch(){
+	if(restart_run != 0) return;
+	restart_run = 1;
 	printtolog(LOG_WARN, `<tw restart> Subsystem died, restarting it`);
 	printtolog(LOG_INFO, `<tw restart> Sending message queue the TERM command`);
 	msgqExtCmd="TERM";
@@ -404,6 +407,7 @@ async function RestartTwitch(){
 	printtolog(LOG_INFO, `<tw restart> Twitch client terminated, trying to start it agane`);
 	await sleep(2000);
 	Start();
+	restart_run = 0;
 }
 
 
