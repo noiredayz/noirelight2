@@ -220,13 +220,13 @@ function onReconnect(){
 function onError(ierror){
 	nlt.util.printtolog(LOG_WARN, `<dti> Client encountered a TMI error: ${ierror}`);
 	if (String(ierror).match(/CapabilitiesError/)){
-		nlt.util.printtolog(LOG_WARN, `Fatál: communication error to TMI detected, cannot continue. Terminating application.`);
-		process.exit(1);
+		printtolog(LOG_WARN, `TMI being awesome as ever. Restarting the chatclient.`);
+		RestartTwitch();
 		return;
 	}
 	if (String(ierror).match(/LoginError/)){
-		nlt.util.printtolog(LOG_WARN, `Fatál: communication error to TMI detected, cannot continue. Terminating application.`);
-		process.exit(1);
+		printtolog(LOG_WARN, `TMI being awesome as ever. Restarting the chatclient.`);
+		RestartTwitch();
 		return;
 	}
 	if(String(ierror).match(/Connection closed due to error: Server did not PONG back: Timed out after waiting for response/)){
