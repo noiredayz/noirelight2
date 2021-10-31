@@ -210,6 +210,12 @@ function onReady(){
 		cmstr="commit: "+String(f).substr(0, 6)+", ";
 	}
 	postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `noirePls connected (${cmstr}session: ${nlt.starttime})`);
+	for(let i=0;i<nlt.channels.length-1;i++){
+		if(!nlt.channels[i]) continue;
+		if(nlt.channels[i].chmode==="2" && nlt.channels[i].context==="twitch"){
+			postmsg(i, `bot connected (${cmstr}session: ${nlt.starttime})`);
+		}
+	}
 	
 	joinChannels();
 }
