@@ -193,7 +193,7 @@ function setEventHandlers(){
 function onConnecting(){
 	nlt.util.printtolog(LOG_WARN, `<dti> 1/3 Connecting to TMI`);
 }
-function onConnect(){
+-function onConnect(){
 	nlt.cache.deld("twitch-client-startup");
 	nlt.util.printtolog(LOG_WARN, `<dti> 2/3 Successfully connected to TMI\n<dti> 3/3 Attempting to log in...`);
 }
@@ -210,11 +210,13 @@ function onReady(){
 		cmstr="commit: "+String(f).substr(0, 6)+", ";
 	}
 	postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `noirePls connected (${cmstr}session: ${nlt.starttime})`);
-	for(let i=0;i<nlt.channels.length;i++){
-		if(!nlt.channels[i]) continue;
-		if(nlt.channels[i].chmode==="2" && nlt.channels[i].context==="twitch"){
-			postmsg(i, `bot connected (${cmstr}session: ${nlt.starttime})`);
-		}
+	if(nlt.c.twitch.broadcast_online){
+		for(let i=0;i<nlt.channels.length;i++){
+			if(!nlt.channels[i]) continue;
+			if(nlt.channels[i].chmode==="2" && nlt.channels[i].context==="twitch"){
+				postmsg(i, `bot connected (${cmstr}session: ${nlt.starttime})`);
+			}
+		}	
 	}
 	
 	joinChannels();
