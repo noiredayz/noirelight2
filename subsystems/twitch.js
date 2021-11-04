@@ -54,7 +54,7 @@ function ttvAuthenticate(forceUpdate=false){
 				headers: {
 					'User-Agent': nlt.c.userAgent
 				},
-				timeout: 2000,
+				timeout: 10000,
 				retry: 2
 			}
 			try{
@@ -90,7 +90,7 @@ function ttvGetAccessToken(){
 			url: `https://id.twitch.tv/oauth2/token?client_id=`+nlt.c.twitch.clientID+`&client_secret=`+nlt.c.twitch.clientSecret+`&code=`+rrows[0].data+`&grant_type=authorization_code&redirect_uri=http://localhost:7775/auth`,
 			headers: { 'User-Agent': nlt.c.userAgent },
 			timeout: 10000,
-			retry: 0
+			retry: 2
 		};
 		nlt.got(https_options).json().then((d) => {
 			printtolog(LOG_WARN, `<twitch> Received auth code, expires in ${donktime(d.expires_in)}`);
@@ -129,7 +129,7 @@ function ttvRefreshToken(){
 			url: rURL,
 			headers: { 'User-Agent': nlt.c.userAgent },
 			timeout: 10000,
-			retry: 0,
+			retry: 2,
 			throwHttpErrors: false
 		};
 		nlt.got(https_options).then((d)=>{
@@ -193,7 +193,7 @@ function setEventHandlers(){
 function onConnecting(){
 	nlt.util.printtolog(LOG_WARN, `<dti> 1/3 Connecting to TMI`);
 }
--function onConnect(){
+function onConnect(){
 	nlt.cache.deld("twitch-client-startup");
 	nlt.util.printtolog(LOG_WARN, `<dti> 2/3 Successfully connected to TMI\n<dti> 3/3 Attempting to log in...`);
 }
