@@ -429,7 +429,7 @@ async function RestartTwitch(){
 }
 
 async function PingTest(){
-	if(pingtst_run != 0) return;
+	if(pingtst_run != 0 || restart_run != 1) return;
 	pingtst_run = 1;
 	printtolog(LOG_WARN, `<twitch> Timeouts detected, testing connection`);
 	let failedping = 0;
