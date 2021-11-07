@@ -12,6 +12,7 @@ let tmiping 	= 0;
 let twchannels	= [];
 let ps_started	= 0;
 let restart_run = 0;
+let pingtst_run = 0;
 let twcdctl		= new nlt.util.TCooldownController("twitch");
 let msgqExtCmd	= "";
 const joinDelay = 580; //in ms, limit is 20 joins per 10 secs for normal accounts
@@ -240,6 +241,11 @@ function onError(ierror){
 		RestartTwitch();
 		return;
 	}
+	if (String(ierror).match(/PingTimeoutError/)){
+		printtolog(LOG_WARN, `Ping timed out. Running a ping test to see if the client is even alive.`);
+		PingTest();
+		return;
+	}
 	if(String(ierror).match(/Connection closed due to error: Server did not PONG back: Timed out after waiting for response/)){
 		printtolog(LOG_WARN, `TMI being awesome as ever. Restarting the chatclient.`);
 		RestartTwitch();
@@ -420,6 +426,29 @@ async function RestartTwitch(){
 	nlt.restarts.twitch++;
 	Start();
 	restart_run = 0;
+}
+
+async function PingTest(){
+	if(pingtst_run != 0) return;
+	pingtst_run = 1;
+	printtolog(LOG_WARN, `<twitch> Timeouts detected, testing connection`);
+	let failedping = 0;
+	do{
+		try{
+			await twitchclient.ping();
+		}
+		catch(err){
+			failedping++;
+			printtolog(LOG_WARN, `<twitch> Ping failed (${failedping}/5)`);
+			continue;
+		}
+		printtolog(LOG_WARN, `<twitch> Ping test successful after ${failedping} failed attempts.`);
+		pingtst_run = 0;
+		return;
+	} while (failedping<5);
+	printtolog(LOG_WARN, `<twitch> Ping test failed 5 times, restarting chatclient.`);
+	pingtst_run = 0;
+	RestartTwitch();
 }
 
 
