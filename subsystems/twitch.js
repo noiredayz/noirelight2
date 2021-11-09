@@ -430,6 +430,10 @@ async function RestartTwitch(){
 
 async function PingTest(){
 	if(pingtst_run != 0 || restart_run != 1) return;
+	if(!twitchclient){
+		printtolog(LOG_WARN, `<twitch> Pingtest: I think we're a bit too late here PepeLaugh (client is undefined)`);
+		return;
+	}
 	pingtst_run = 1;
 	nlt.cache.setd("twitchpingtest", "NaM");
 	timebomb("twitchpingtest", 30000, RestartTwitch);
