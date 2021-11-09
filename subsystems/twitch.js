@@ -431,6 +431,8 @@ async function RestartTwitch(){
 async function PingTest(){
 	if(pingtst_run != 0 || restart_run != 1) return;
 	pingtst_run = 1;
+	nlt.cache.setd("twitchpingtest", "NaM");
+	timebomb("twitchpingtest", 30000, RestartTwitch);
 	printtolog(LOG_WARN, `<twitch> Timeouts detected, testing connection`);
 	let failedping = 0;
 	do{
@@ -444,9 +446,11 @@ async function PingTest(){
 		}
 		printtolog(LOG_WARN, `<twitch> Ping test successful after ${failedping} failed attempts.`);
 		pingtst_run = 0;
+		nlt.cache.deld("twitchpingtest");
 		return;
 	} while (failedping<5);
 	printtolog(LOG_WARN, `<twitch> Ping test failed 5 times, restarting chatclient.`);
+	nlt.cache.deld("twitchpingtest");
 	pingtst_run = 0;
 	RestartTwitch();
 }
