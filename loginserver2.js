@@ -86,7 +86,9 @@ function parseAuth(inmsg){
 	<b>Save this data to the database to the auth table!</b><br>
 	keyname: <code>twitch-oauth</code><br>
 	data: the access_token<br>
-	type: <code>bearer</code>
+	type: <code>bearer</code><br>
+	Note: this is an authorization code flow token and can only be used with applications<br>
+	that are desgined to work with such.
 	</body></html>`;
 	return retval;
 	
@@ -100,9 +102,7 @@ function loginpage(){
 	<body>
 	Click this link to get redirected to twitch authentication.<br>
 	You need to verify it USING THE BOTS ACCOUNT!!!!<br>
-	It is for the bot so it can use chat <img src="https://cdn.betterttv.net/emote/5de9cb6191129e77b47ca987/1x"><br>
+	It is for the bot so it can use chat and access the Twitch API <img src="https://cdn.betterttv.net/emote/5de9cb6191129e77b47ca987/1x"><br>
 	CLICK IT FORS <img src="https://static-cdn.jtvnw.net/emoticons/v1/425618/1.0"> 👉🏽 : <a href="${tehUrl}">totally not an imgur 'jpeg'</a><br><br>
-	Side note: there will be a separate login page for the operator and other broadcasters<br>
-	if I even add functions like allowing the bot to change the title etc.<br>
 	</body></html>`;
 }

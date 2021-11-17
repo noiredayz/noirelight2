@@ -18,7 +18,11 @@ try{
 catch(err){
 	throw (err);
 }
-ptl("Please navigate to http://localhost:7775 in your web browser and follow the instructions.");
+ptl("Предупреждение! This was the legacy login server when the bot still used the implicit code flow!");
+ptl("It can still be used to generate an oauth code using the bot's registered application,");
+ptl("however the generated code can NOT be used with noirelight2!");
+ptl("If you need an initial oauth code for the bot with auth code flow, start loginserver2.js");
+ptl("If you however need a code from the implicit flow go to http://localhost:7775 in your web browser and follow the instructions.");
 
 async function requestHandler(req, res){
 	ptl(`<http> Incoming request for "${req.url}"`);
@@ -82,10 +86,9 @@ function parseAuth(inmsg){
 	}
 	retval += `
 	<br>
-	<b>Save this data to the database to the auth table!</b><br>
-	keyname: <code>twitch-oauth</code><br>
-	data: the access_token<br>
-	type: <code>bearer</code>
+	You can use this oauth code with pepega chatbots that don't have auth code flow with renew tokens<br>
+	or to log into twitch using IRC.<br>
+	Your client ID (required for helix calls): <b>${conf.twitch.clientID}</b>
 	</body></html>`;
 	return retval;
 	
@@ -95,13 +98,10 @@ function parseAuth(inmsg){
 function loginpage(){
 	return `
 	<html>
-	<head><title>SUPA LOGIN PAGE FOR NOIRELIGHT2</title></head>
+	<head><title>noirelight2 legacy implicit oauth code generator</title></head>
 	<body>
 	Click this link to get redirected to twitch authentication.<br>
-	You need to verify it USING THE BOTS ACCOUNT!!!!<br>
-	It is for the bot so it can use chat <img src="https://cdn.betterttv.net/emote/5de9cb6191129e77b47ca987/1x"><br>
+	You need to be logged in with the account you need access from.<br>
 	CLICK IT FORS <img src="https://static-cdn.jtvnw.net/emoticons/v1/425618/1.0"> 👉🏽 : <a href="${tehUrl}">totally not an imgur 'jpeg'</a><br><br>
-	Side note: there will be a separate login page for the operator and other broadcasters<br>
-	if I even add functions like allowing the bot to change the title etc.<br>
 	</body></html>`;
 }
