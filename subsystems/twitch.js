@@ -44,7 +44,7 @@ function ttvAuthenticate(forceUpdate=false){
 		if (!needs_update){
 			nlt.cache.deld("helix_bearer");
 			nlt.cache.setd("helix_bearer", rrows[0].data, nlt.util.getunixtime()-rrows[0].expires);
-			nlt.util.printtolog(LOG_INFO, `<twitch> Valid Helix token loaded from db, expires in ${nlt.util.donktime(rrows[0].expires-nlt.util.getunixtime())}`);
+			//nlt.util.printtolog(LOG_INFO, `<twitch> Valid Helix token loaded from db, expires in ${nlt.util.donktime(rrows[0].expires-nlt.util.getunixtime())}`);
 			resolve("update success");
 			return;
 		} else {	
