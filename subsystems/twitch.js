@@ -303,7 +303,7 @@ async function onBan(inMsg){
 	let username = inMsg.targetUsername;
 	if(nlt.channels[nlt.chctl.findChannel(channel, "twitch")].monitorbans!=1) return;
 	if(inMsg.isPermaban()){
-		postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `MODS Clap #${channel} ${username} was permanently banned. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
+		postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `#${channel} RIPBOZO @${username} you won't be missed (permanently banned). https://logs.ivr.fi/?channel=${channel}&username=${username}`);
 		return;
 	}
 	if(inMsg.isTimeout()){
