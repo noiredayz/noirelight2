@@ -158,14 +158,14 @@ async function Start(){
 	}
 	catch(err){
 		nlt.util.printtolog(LOG_WARN, `<twitch> Error while trying to grab an access token: ${err}`);
-		process.exit(1);
+		RestartTwitch();
 	}
 	try{
 		await ttvRefreshToken();
 	}
 	catch(err){
 		nlt.util.printtolog(LOG_WARN, `<twitch> Error while trying to refresh the access token: ${err}`);
-		process.exit(1);
+		RestartTwitch();
 	}
 	let rrows;
 	rrows = nlt.maindb.selectQuery("SELECT * FROM auth WHERE keyname='twitch-access-token';");
@@ -408,8 +408,10 @@ async function RestartTwitch(){
 	printtolog(LOG_WARN, `<tw restart> Subsystem died, restarting it`);
 	printtolog(LOG_INFO, `<tw restart> Sending message queue the TERM command`);
 	msgqExtCmd="TERM";
-	while(msgqExtCmd==="TERM"){
-		await sleep(50);
+	let i=0;
+	while(msgqExtCmd==="TERM" && i<30){	//handle the rare case of message queue no terminating because its not even running
+		await sleep(100);
+		i++;
 	}
 	printtolog(LOG_INFO, `<tw restart> Dropping remaining messages`);
 	await nlt.msgqdb.PinsertQuery(`DELETE FROM mq WHERE context='twitch';`);
