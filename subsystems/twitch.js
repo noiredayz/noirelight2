@@ -158,14 +158,14 @@ async function Start(){
 	}
 	catch(err){
 		nlt.util.printtolog(LOG_WARN, `<twitch> Error while trying to grab an access token: ${err}`);
-		RestartTwitch();
+		process.exit(1);	//restarttwitch doesn't work here
 	}
 	try{
 		await ttvRefreshToken();
 	}
 	catch(err){
 		nlt.util.printtolog(LOG_WARN, `<twitch> Error while trying to refresh the access token: ${err}`);
-		RestartTwitch();
+		process.exit(1);	//restarttwitch doesn't work here
 	}
 	let rrows;
 	rrows = nlt.maindb.selectQuery("SELECT * FROM auth WHERE keyname='twitch-access-token';");
