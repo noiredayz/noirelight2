@@ -297,7 +297,7 @@ async function onMessageArrive (inmsg) {
 }
 
 async function onBan(inMsg){
-	const minTO = 60*60*6;	//6h which is higher than even the highest massping timeout
+	const minTO = 60*60*6;	//timeouts higher than 6h are usually not masspings. usually.
 	let duration = inMsg.banDuration;
 	let channel = inMsg.channelName;
 	let username = inMsg.targetUsername;
@@ -308,7 +308,7 @@ async function onBan(inMsg){
 	}
 	if(inMsg.isTimeout()){
 		if(duration>=minTO)
-			postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `MODS 👉🏽 #${channel} ${username} was timed out for ${nlt.util.donktime(duration)}. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
+			postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `MODS 👉🏽 #${channel} @${username} was timed out for ${nlt.util.donktime(duration)}. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
 	}
 }
 
