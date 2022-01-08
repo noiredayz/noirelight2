@@ -302,7 +302,7 @@ async function onBan(inMsg){
 	let channel = inMsg.channelName;
 	let username = inMsg.targetUsername;
 	
-	let cacheString = "nlt2-twitch-"+channel+"-"+inMsg.isPermaban()?"ban":"timeout-"+duration?duration:"";
+	let cacheString = "nlt2-twitch-"+channel+"-"+username+"-"+inMsg.isPermaban()?"ban":"timeout-"+duration?duration:"";
 	if(nlt.cache.getd(cacheString))
 			return;
 		else
