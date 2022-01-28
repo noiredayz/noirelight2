@@ -2,11 +2,11 @@
 Another Twitch bot, because we don't have enough of them already.
 
 ## Instances
-The main instance can be found at [https://twitch.tv/noires_bot]
+The main instance can be found at https://twitch.tv/noires_bot
 
 ## Okayeg wher comands
-* (Commands' repository)[https://github.com/noiredayz/noirelight2-commands]
-* (Command list)[https://noiresbot.noiredayz.link/bot/]
+* [Commands' repository](https://github.com/noiredayz/noirelight2-commands)
+* [Command list](https://noiresbot.noiredayz.link/bot/)
 
 ## Self hostable?
 Yes, once I upload the database templates. The bot was designed to be easily
