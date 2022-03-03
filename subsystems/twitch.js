@@ -483,7 +483,7 @@ async function joinChannels(){
 		if(ch.chmode != "0" && ch.context === "twitch"){
 			stime = new Date;
 			failed = false;
-			try { twitchclient.join(ch.name); }
+			try { await twitchclient.join(ch.name); }
 			catch(err){
 				nlt.util.printtolog(LOG_WARN, `<twitch> Error while joining channel ${ch.name}: ${err}`);
 				failed=true;
