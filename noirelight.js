@@ -79,11 +79,11 @@ nlt.util.printtolog(LOG_WARN, `<system> Successfully opened the databases.`);
 
 process.on('exit', () => { nlt.maindb.close(); nlt.logdb.close(); nlt.fs.closeSync(nlt.logfile);});
 
-
+/*
 process.on('unhandledRejection', function(reason, promise){
 	nlt.util.printtolog(LOG_WARN, `<system> Unhandled promise rejection (${promise}): ${reason}`);
 });
-
+*/
 
 nlt.cache.InitCache();
 nlt.cmd.LoadCommands();				//Load commands from files
