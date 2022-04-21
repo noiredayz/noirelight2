@@ -1,6 +1,6 @@
 "use strict";
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
-const {printtolog, donktime, getunixtime, sleep, timebomb} = require(process.cwd()+"/lib/nlt-tools.js");
+const {printtolog, donktime, getunixtime, sleep, timebomb, stringCheck} = require(process.cwd()+"/lib/nlt-tools.js");
 
 const { ChatClient} = require("dank-twitch-irc");
 let twitchclient;
@@ -516,6 +516,36 @@ function pbotBanphraseCheck(url, incmd){
 			resolve(d);
 		}).catch((err) => {
 			nlt.util.printtolog(LOG_WARN, `<pajbot pbcheck> Error while trying to check "${incmd}" on server ${url}: ${err}`);
+			reject(err);
+		});
+	});
+}
+
+function pajbot2check(channel, message){
+	return new Promise((resolve, reject) => {
+		if(nlt.channels[channel].chid === 0){
+			reject("missing channel id from channel settings");
+			return;
+		}
+		if(!stringCheck(message)){
+			resolve({banned: false, input_message: ""});
+			return;
+		}
+		const tmessage = encodeURIComponent(message);
+		//TODO: add support for custom pajbot2 instances
+		const turl = `https://paj.pajbot.com/api/channel/${nlt.channels[channel].chid}/moderation/check_message?message=${tmessage}`;
+		const https_options = {
+			url: turl,
+			method: 'GET',
+			headers: {
+				'User-Agent': nlt.c.userAgent
+			},
+			timeout: 2000,
+			retry: 2
+		};
+		nlt.got(https_options).json().then((d)=>{
+			resolve(d);
+		}).catch((err)=>{
 			reject(err);
 		});
 	});
