@@ -523,8 +523,16 @@ function pbotBanphraseCheck(url, incmd){
 
 function pajbot2check(channel, message){
 	return new Promise((resolve, reject) => {
-		if(nlt.channels[channel].chid === 0){
+		if(nlt.channels[channel].chid === 0 || !!nlt.channels[channel].chid){
 			reject("missing channel id from channel settings");
+			return;
+		}
+		if(!stringCheck(nlt.channels[channel].pb2)){
+			reject("missing pajbot2 setting for this channel");
+			return;
+		}
+		if(nlt.channels[channel].pb2==="none"){
+			reject("channel has no pajbot2 enabled");
 			return;
 		}
 		if(!stringCheck(message)){
@@ -596,6 +604,7 @@ exports.Start = Start;
 exports.client = twitchclient;
 exports.sendwhisper = sendwhisper;
 exports.pbotBanphraseCheck = pbotBanphraseCheck;
+exports.pajbot2check = pajbot2check;
 exports.cdctl = twcdctl;
 exports.postmsg = postmsg;
 exports.ping = ping;
