@@ -265,6 +265,32 @@ async function onMessageArrive (inmsg) {
 		nlt.util.printtolog(LOG_WARN, `<twitch> Warning: received message from an unknown channel ${inmsg.channelName}, not handling it`);
 		return;
 	}
+	if(nlt.channels[target_channel].offlineOnly === 1){
+		let chdata;
+		//Cached online states:
+		//0: channel is offline, cached for 30s
+		//1: channel is online, cached for 30s
+		//2: API error, cached for 15 to prevent hammering. In this case no message will be posted like with online.
+		chdata = nlt.cache.getd("twitch-channel-"+nlt.channels[target_channel].name+"-online-status");
+		if(chdata === 1 || chdata === 2) return;
+		if(chdata === undefined) {	//no cached channel broadcast state exists
+			try{
+				chdata = await nlt.got.helixGetData("streams", "user_id="+nlt.channels[target_channel].chid);
+			}
+			catch(err){
+				printtolog(LOG_WARN, `<twitch> Cannot query Helix for channel online status: ${err}`);
+				nlt.cache.setd("twitch-channel-"+nlt.channels[target_channel].name+"-online-status", 2, 15);
+				return;
+			}
+			if(!chdata){
+				nlt.cache.setd("twitch-channel-"+nlt.channels[target_channel].name+"-online-status", 0, 30);
+			} else {
+				nlt.cache.setd("twitch-channel-"+nlt.channels[target_channel].name+"-online-status", 1, 30);
+				return;
+			}
+		}
+		
+	}
 	
 	
 	let rrows=await nlt.maindb.PselectQuery(`SELECT * FROM bans WHERE username='${unick}' AND command='_global';`);
