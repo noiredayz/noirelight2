@@ -1,6 +1,7 @@
 "use strict";
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
 const {printtolog, donktime, getunixtime, sleep, timebomb, stringCheck} = require(process.cwd()+"/lib/nlt-tools.js");
+const {helixGetData} = require(process.cwd()+"/lib/nlt-got.js");
 
 const { ChatClient} = require("dank-twitch-irc");
 let twitchclient;
@@ -265,27 +266,28 @@ async function onMessageArrive (inmsg) {
 		nlt.util.printtolog(LOG_WARN, `<twitch> Warning: received message from an unknown channel ${inmsg.channelName}, not handling it`);
 		return;
 	}
-	if(nlt.channels[target_channel].offlineOnly === 1){
+	if(nlt.channels[channel].offlineOnly === 1){
 		let chdata;
+		const cacheName = "twitch-channel-"+nlt.channels[channel].name+"-online-status";
 		//Cached online states:
 		//0: channel is offline, cached for 30s
 		//1: channel is online, cached for 30s
 		//2: API error, cached for 15 to prevent hammering. In this case no message will be posted like with online.
-		chdata = nlt.cache.getd("twitch-channel-"+nlt.channels[target_channel].name+"-online-status");
+		chdata = nlt.cache.getd(cacheName);
 		if(chdata === 1 || chdata === 2) return;
 		if(chdata === undefined) {	//no cached channel broadcast state exists
 			try{
-				chdata = await nlt.got.helixGetData("streams", "user_id="+nlt.channels[target_channel].chid);
+				chdata = await helixGetData("streams", "user_id="+nlt.channels[channel].chid);
 			}
 			catch(err){
 				printtolog(LOG_WARN, `<twitch> Cannot query Helix for channel online status: ${err}`);
-				nlt.cache.setd("twitch-channel-"+nlt.channels[target_channel].name+"-online-status", 2, 15);
+				nlt.cache.setd(cacheName, 2, 15);
 				return;
 			}
 			if(!chdata){
-				nlt.cache.setd("twitch-channel-"+nlt.channels[target_channel].name+"-online-status", 0, 30);
+				nlt.cache.setd(cacheName, 0, 30);
 			} else {
-				nlt.cache.setd("twitch-channel-"+nlt.channels[target_channel].name+"-online-status", 1, 30);
+				nlt.cache.setd(cacheName, 1, 30);
 				return;
 			}
 		}
