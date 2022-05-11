@@ -551,7 +551,7 @@ function pbotBanphraseCheck(url, incmd){
 
 function pajbot2check(channel, message){
 	return new Promise((resolve, reject) => {
-		if(nlt.channels[channel].chid === 0 || !!nlt.channels[channel].chid){
+		if(nlt.channels[channel].chid === 0 || !nlt.channels[channel].chid){
 			reject("missing channel id from channel settings");
 			return;
 		}
@@ -569,7 +569,7 @@ function pajbot2check(channel, message){
 		}
 		const tmessage = encodeURIComponent(message);
 		//TODO: add support for custom pajbot2 instances
-		const turl = `https://paj.pajbot.com/api/channel/${nlt.channels[channel].chid}/moderation/check_message?message=${tmessage}`;
+		const turl = `https://${nlt.channels[channel].pb2}/api/channel/${nlt.channels[channel].chid}/moderation/check_message?message=${tmessage}`;
 		const https_options = {
 			url: turl,
 			method: 'GET',
@@ -582,6 +582,7 @@ function pajbot2check(channel, message){
 		nlt.got(https_options).json().then((d)=>{
 			resolve(d);
 		}).catch((err)=>{
+			printtolog(LOG_WARN, `<pajbot2 check> error: ${err}`);
 			reject(err);
 		});
 	});
