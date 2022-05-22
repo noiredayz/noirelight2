@@ -262,10 +262,15 @@ async function onMessageArrive (inmsg) {
 	let unick 	= inmsg.senderUsername;
 	let message = inmsg.messageText;
 	let channel = nlt.chctl.findChannel(inmsg.channelName, "twitch");
+	
 	if(channel === -1){
 		nlt.util.printtolog(LOG_WARN, `<twitch> Warning: received message from an unknown channel ${inmsg.channelName}, not handling it`);
 		return;
 	}
+	if(nlt.channels[channel].chmode ==="1") return;
+	//no action if the channel is in singleuser but the user isn't the operator
+	//TODO: should this be enabled for sudoers too?
+	if(nlt.channels[channel].chmode ==="S" && unick!=nlt.c.usr_admin) return;
 	if(nlt.channels[channel].offlineOnly === 1){
 		let chdata;
 		const cacheName = "twitch-channel-"+nlt.channels[channel].name+"-online-status";
@@ -302,12 +307,6 @@ async function onMessageArrive (inmsg) {
 
 	let in_cmd = message.trim().split(" ");				//trim front and rear whitespace
 	//in_cmd = in_cmd.split(" ");						//turn text to array based on spaces
-
-	if(nlt.channels[channel].chmode ==="1") return;
-	//no action if the channel is in singleuser but the user isn't the operator
-	//TODO: should this be enabled for sudoers too?
-	if(nlt.channels[channel].chmode ==="S" && unick!=nlt.c.usr_admin) return;
-
 
 	if(in_cmd[0][0] === nlt.c.cmd_prefix && in_cmd[0].length > 1)
 		handled = nlt.cmd.process_command(message.substr(1), unick, channel, inmsg, "twitch");
