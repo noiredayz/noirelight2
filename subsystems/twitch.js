@@ -3,7 +3,7 @@ const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-co
 const {printtolog, donktime, getunixtime, sleep, timebomb, stringCheck} = require(process.cwd()+"/lib/nlt-tools.js");
 const {helixGetData} = require(process.cwd()+"/lib/nlt-got.js");
 
-const { ChatClient} = require("dank-twitch-irc");
+const { ChatClient} = require("@kararty/dank-twitch-irc");
 let twitchclient;
 let twHelix="", twOauth="";
 
