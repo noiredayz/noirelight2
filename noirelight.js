@@ -39,23 +39,18 @@ nlt.fs		= require("fs");
 nlt.got		= require("got");
 nlt.os		= require("os");					//os information
 nlt.dns		= require("dns");					//domain resolver query
-nlt.stt		= require("set-terminal-title");	//speaks for itself
 nlt.util	= require("./lib/nlt-tools.js");	//utils and common commands
 nlt.db		= require("./lib/nlt-db.js");		//donk sqlite database
 nlt.conf	= require("./config/config.js");	//configuration
-nlt.c		= nlt.conf.nltConfig;			//configuration options
-nlt.ps		= require("./lib/twitch-pubsub.js");//pubsub dankness
+nlt.c		= nlt.conf.nltConfig;				//configuration options
+nlt.ps		= require("./lib/twitch-pubsub.js");//pubsub 
 nlt.router	= require("./lib/nlt-router.js");	//web server
 nlt.cmd		= require("./lib/nlt-commands.js");	//command execution
 nlt.chctl	= require("./lib/nlt-channels.js");	//channel control
 nlt.cache	= require("./lib/nlt-cache.js");	//memory cache
-nlt.gql		= require("graphql");
 
 nlt.ss		= new Object;
 nlt.ss["twitch"] = require("./subsystems/twitch.js");	//the Twitch subsystem
-//nlt.ss["cytube"] = require("./subsystems/cytube.js");	//the CyTube subsystem
-
-
 
 nlt.starttime	= nlt.util.getunixtime();
 nlt.channels	= [];
