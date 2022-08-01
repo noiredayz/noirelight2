@@ -41,15 +41,13 @@ nlt.os		= require("os");					//os information
 nlt.dns		= require("dns");					//domain resolver query
 nlt.util	= require("./lib/nlt-tools.js");	//utils and common commands
 nlt.db		= require("./lib/nlt-db.js");		//donk sqlite database
-nlt.conf	= require("./config/config.js");	//configuration
-nlt.c		= nlt.conf.nltConfig;				//configuration options
-nlt.ps		= require("./lib/twitch-pubsub.js");//pubsub 
 nlt.router	= require("./lib/nlt-router.js");	//web server
 nlt.cmd		= require("./lib/nlt-commands.js");	//command execution
 nlt.chctl	= require("./lib/nlt-channels.js");	//channel control
 nlt.cache	= require("./lib/nlt-cache.js");	//memory cache
 
 nlt.ss		= new Object;
+nlt.c		= new Object;						//config options, to be populated later
 nlt.ss["twitch"] = require("./subsystems/twitch.js");	//the Twitch subsystem
 
 nlt.starttime	= nlt.util.getunixtime();
@@ -59,20 +57,37 @@ nlt.restarts	= {twitch: 0, cytube: 0, discord: 0};
 
 console.log(`noirelight2 ${nlt.c.bver} starting up on ${nlt.os.platform} @ ${nlt.os.hostname}`);
 console.log(`node version: ${process.versions.node}, v8 version: ${process.versions.v8}`);
-nlt.logfile = nlt.fs.openSync(nlt.c.logfile, 'a', '644');
+nlt.logfile = nlt.fs.openSync(process.cwd()+"/nlt.log", 'a', '644');
 nlt.util.printtolog(LOG_INFO, `==================== New session: ${nlt.starttime} ====================`);
+const maindb = process.cwd()+"/nlt.sqlite3";
+const logdb  = nlt.tools.getAuthKey("logdb", "file");
+const tldb   = nlt.tools.getAuthKey("tldb", "file");
 nlt.util.printtolog(LOG_WARN, `<system> Attempting to open the main database file`);
 nlt.maindb = new nlt.db.TDatabaseControl(nlt.c.dbfile, { fileMustExists: true });
-nlt.util.printtolog(LOG_WARN, `<system> Attempting to open the message log database file`);
-nlt.logdb = new nlt.db.TDatabaseControl(nlt.c.logdbfile, {fileMustExists: true});
-nlt.util.printtolog(LOG_WARN, `<system> Attempting to open the twitch lottery database file`);
-nlt.tldb = new nlt.db.TDatabaseControl(nlt.c.tldb, {fileMustExists: true});
-nlt.util.printtolog(LOG_WARN, `<system> Attempting to create and set up the memory only database`);
+
+if(logdb){
+	nlt.util.printtolog(LOG_WARN, `<system> Opening the message log database file`);
+	nlt.logdb = new nlt.db.TDatabaseControl(nlt.c.logdbfile, {fileMustExists: true});
+} else {
+	nlt.util.printtolog(LOG_WARN, `<system> Warning: logdb is not set. Outgoing chat messages will not be logged`);
+}
+if(tldb){
+	nlt.util.printtolog(LOG_WARN, `<system> Opening the twitch lottery database file`);
+	nlt.tldb = new nlt.db.TDatabaseControl(nlt.c.tldb, {fileMustExists: true});
+} else {
+	nlt.util.printtolog(LOG_WARN, `<system> Warning: Twitch lotto database path is not set. The tl command will not function without it.`);
+	nlt.util.printtolog(LOG_WARN, `<system> Warning: If tl is not enabled it is safe to ignore this warning.`);
+}
+nlt.util.printtolog(LOG_WARN, `<system> Creating and setting up the memory only database`);
 nlt.msgqdb = new nlt.db.TDatabaseControl(":memory:");
 nlt.db.InitMessageQueueDatabase();
-nlt.util.printtolog(LOG_WARN, `<system> Successfully opened the databases.`);
+nlt.util.printtolog(LOG_WARN, `<system> Enabled databases opened successfully.`);
 
-process.on('exit', () => { nlt.maindb.close(); nlt.logdb.close(); nlt.fs.closeSync(nlt.logfile);});
+process.on('exit', () => {
+	nlt.maindb.close();
+	if(nlt.logdb) nlt.logdb.close();
+	nlt.fs.closeSync(nlt.logfile);
+});
 
 /*
 process.on('unhandledRejection', function(reason, promise){
@@ -84,9 +99,6 @@ nlt.cache.InitCache();
 nlt.cmd.LoadCommands();				//Load commands from files
 nlt.chctl.LoadChannels();			//Load all channels, but not yet join them
 nlt.ss["twitch"].Start();			//Connect and log into Twitch
-
-//nlt.ps.start();					//Start pubsub
-//nlt.cytube.Start();				//Connect and log into CyTube
 nlt.Router = new nlt.router.Router;
 nlt.Router.createServer();
 

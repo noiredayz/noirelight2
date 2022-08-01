@@ -1,10 +1,11 @@
 "use strict";
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
-const {printtolog, donktime, getunixtime, sleep, timebomb, stringCheck} = require(process.cwd()+"/lib/nlt-tools.js");
+const {printtolog, donktime, getunixtime, sleep, timebomb, stringCheck, getAuthKey} = require(process.cwd()+"/lib/nlt-tools.js");
 const {helixGetData} = require(process.cwd()+"/lib/nlt-got.js");
 
 const { ChatClient} = require("@kararty/dank-twitch-irc");
 let twitchclient;
+let twOptions = new Object;
 let twHelix="", twOauth="";
 
 //twitch specific variables
@@ -626,6 +627,18 @@ function timeout(channel, unick, length, reason=undefined){
 			reject(err);
 		});
 	});
+}
+
+function LoadConfig(){
+	return new Promise(async (resolve, reject) => {
+	twOption.operator = getAuthKey("twitchOperatorID", "userid");
+	if(!twOptions.operator) reject("missing setting: operator's user ID");
+	if(typeof(twOptions.operator)!="number") reject("operator's ID must be a number(his/her user ID). Usernames are unsafe and not supported.");
+	
+	twOptions.clientID = getAuthKey("twitch-client-id", "key");
+	twOptions.clientSecret = getAuthKey("twitch-client-secret", "secretkey");
+	
+});
 }
 
 exports.Start = Start;
