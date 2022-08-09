@@ -23,7 +23,7 @@
     "better-sqlite3": "^7.4.1",
     "cytube-connector": "https://github.com/Supinic/cytube-connector.git",
     "@kararty/dank-twitch-irc": "~4.7.0",
-    "got": "^11.8.2",
+    "got": "^12.3.1",
     "mime-types": "^2.1.31",
     "reconnecting-websocket": "^4.4.0",
     "ws": "^7.4.6"
