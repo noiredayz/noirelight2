@@ -324,25 +324,29 @@ async function onMessageArrive (inmsg) {
 }
 
 async function onBan(inMsg){
-	const minTO = 60*60*6;	//timeouts higher than 6h are usually not masspings. usually.
+	const minTO = 60*60*8;
 	let duration = inMsg.banDuration;
 	let channel = inMsg.channelName;
 	let username = inMsg.targetUsername;
 	
-	let cacheString = "nlt2-twitch-"+channel+"-"+username+"-"+(inMsg.isPermaban()?"ban":"timeout-")+(duration?duration:"");
+	if(nlt.channels[nlt.chctl.findChannel(channel, "twitch")].monitorbans!=1) return;
+	
+	if(inMsg.isTimeout()){
+		if(duration<minTO) return;
+	}
+	
+	let cacheString = "nlt2-twitch-"+channel+"-"+username+"-"+(inMsg.isPermaban()?"ban":"timeout");
 	if(nlt.cache.getd(cacheString))
 			return;
 		else
 			nlt.cache.setd(cacheString, "NaM", 60);
-	
-	if(nlt.channels[nlt.chctl.findChannel(channel, "twitch")].monitorbans!=1) return;
+
 	if(inMsg.isPermaban()){
 		postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `#${channel} RIPBOZO @${username} has been permanently banned. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
 		return;
 	}
 	if(inMsg.isTimeout()){
-		if(duration>=minTO)
-			postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `MODS 👉🏽 #${channel} @${username} was timed out for ${nlt.util.donktime(duration)}. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
+		postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `MODS 👉🏽 #${channel} @${username} was timed out for ${nlt.util.donktime(duration)}. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
 	}
 }
 
