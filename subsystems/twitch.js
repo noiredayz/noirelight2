@@ -1,7 +1,7 @@
 "use strict";
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
 const {printtolog, donktime, getunixtime, sleep, timebomb, stringCheck} = require(process.cwd()+"/lib/nlt-tools.js");
-const {helixGetData} = require(process.cwd()+"/lib/nlt-got.js");
+const {helixGetData, helixWhoAmI} = require(process.cwd()+"/lib/nlt-got.js");
 
 const { ChatClient} = require("@kararty/dank-twitch-irc");
 let twitchclient;
@@ -199,7 +199,7 @@ function onConnect(){
 	nlt.cache.deld("twitch-client-startup");
 	nlt.util.printtolog(LOG_WARN, `<dti> 2/3 Successfully connected to TMI\n<dti> 3/3 Attempting to log in...`);
 }
-function onReady(){
+async function onReady(){
 	nlt.util.printtolog(LOG_WARN, `<dti> Login successful. Chatclient is ready.`);
 	let f, cmstr="";
 	try{
@@ -222,6 +222,11 @@ function onReady(){
 	}
 	
 	joinChannels();
+	const k = await helixWhoAmI();
+	if(nlt.identities["twitch"]) delete nlt.identities["twitch"];
+	nlt.identities["twitch"] = k;
+	printtolog(LOG_INFO, `<twitch> Loaded identity, the bot is running as ${k.login}(${k.display_name}), UID ${k.id}`);
+	
 }
 function onClose(){
 	nlt.util.printtolog(LOG_WARN, `<dti> Connection to TMI was closed.`);

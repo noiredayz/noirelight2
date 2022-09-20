@@ -56,6 +56,7 @@ nlt.starttime	= nlt.util.getunixtime();
 nlt.channels	= [];
 nlt.timebombs	= 0;
 nlt.restarts	= {twitch: 0, cytube: 0, discord: 0};
+nlt.identities	= {};
 
 console.log(`noirelight2 ${nlt.c.bver} starting up on ${nlt.os.platform} @ ${nlt.os.hostname}`);
 console.log(`node version: ${process.versions.node}, v8 version: ${process.versions.v8}`);
