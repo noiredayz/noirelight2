@@ -448,6 +448,7 @@ async function twmessagequeue(){
 async function RestartTwitch(){
 	if(restart_run != 0) return;
 	restart_run = 1;
+	pingtst_run = 0;
 	printtolog(LOG_WARN, `<tw restart> Subsystem died, restarting it`);
 	printtolog(LOG_INFO, `<tw restart> Sending message queue the TERM command`);
 	msgqExtCmd="TERM";
