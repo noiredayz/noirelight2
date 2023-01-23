@@ -6,11 +6,11 @@ The main instance can be found at https://twitch.tv/noires_bot
 
 ## Okayeg wher comands
 * [Commands' repository](https://github.com/noiredayz/noirelight2-commands)
-* [Command list](https://noiresbot.noiredayz.link/bot/)
+* [Command list](https://noiresbot.noiredayz.link/bot/) - Temporary out of order
+* [Command list (temp)](https://gep5.root.sx/bot/) use THIS
 
 ## Self hostable?
-Yes, once I upload the database templates. The bot was designed to be easily
-hostable from the start.
+Yes. You'll need sqlite databases to be created. Look for database templates in the "sql" directory.
 
 ## License
 Free software under the GNU AGPL 3.0
