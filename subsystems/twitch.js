@@ -171,7 +171,19 @@ async function Start(){
 	let rrows;
 	rrows = nlt.maindb.selectQuery("SELECT * FROM auth WHERE keyname='twitch-access-token';");
 	twOauth = "oauth:" + rrows[0].data;
-	twitchclient = new ChatClient({username: nlt.c.twitch.username, password: twOauth, rateLimits: nlt.c.twitch.rateLimits});
+	let k;
+	try{
+		k = await helixWhoAmI();
+	}
+	catch(err){
+		printtolog(LOG_WARN, `<twitch> Fatál: unable to query identify: ${err}`);
+		//TODO: restart twitch here?
+		process.exit(1);
+	}
+	if(nlt.identities["twitch"]) delete nlt.identities["twitch"];
+	nlt.identities["twitch"] = k;
+	printtolog(LOG_INFO, `<twitch> Loaded identity, the bot will be running as ${k.login}(${k.display_name}), UID ${k.id}`);
+	twitchclient = new ChatClient({username: k.login, password: twOauth, rateLimits: nlt.c.twitch.rateLimits});
 	setEventHandlers();
 	nlt.cache.setd("twitch-client-startup", "NaM");
 	timebomb("twitch-client-startup", 10000, RestartTwitch);
@@ -221,12 +233,7 @@ async function onReady(){
 		}	
 	}
 	
-	joinChannels();
-	const k = await helixWhoAmI();
-	if(nlt.identities["twitch"]) delete nlt.identities["twitch"];
-	nlt.identities["twitch"] = k;
-	printtolog(LOG_INFO, `<twitch> Loaded identity, the bot is running as ${k.login}(${k.display_name}), UID ${k.id}`);
-	
+	joinChannels();	
 }
 function onClose(){
 	nlt.util.printtolog(LOG_WARN, `<dti> Connection to TMI was closed.`);
