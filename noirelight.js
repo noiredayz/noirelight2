@@ -39,6 +39,7 @@ nlt.fs		= require("fs");
 nlt.got		= require("got");
 nlt.os		= require("os");					//os information
 nlt.dns		= require("dns");					//domain resolver query
+nlt.exec	= require("child_process");			//execute external commands and shit
 nlt.util	= require("./lib/nlt-tools.js");	//utils and common commands
 nlt.db		= require("./lib/nlt-db.js");		//donk sqlite database
 nlt.conf	= require("./config/config.js");	//configuration
@@ -48,6 +49,7 @@ nlt.router	= require("./lib/nlt-router.js");	//web server
 nlt.cmd		= require("./lib/nlt-commands.js");	//command execution
 nlt.chctl	= require("./lib/nlt-channels.js");	//channel control
 nlt.cache	= require("./lib/nlt-cache.js");	//memory cache
+
 
 nlt.ss		= new Object;
 nlt.ss["twitch"] = require("./subsystems/twitch.js");	//the Twitch subsystem
