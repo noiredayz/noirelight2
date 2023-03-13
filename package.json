@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "@kararty/dank-twitch-irc": "~6.0.0",
-    "better-sqlite3": "^8.1.0",
+    "better-sqlite3": "^8.2.0",
     "cytube-connector": "https://github.com/Supinic/cytube-connector.git",
     "got": "11.x.x",
     "mime-types": "^2.1.31",
