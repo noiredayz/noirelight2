@@ -26,7 +26,7 @@
     "got": "11.x.x",
     "mime-types": "^2.1.31",
     "reconnecting-websocket": "^4.4.0",
-    "ws": "^8.12.0"
+    "ws": "^8.13.0"
   },
   "author": "Noiredayz",
   "license": "AGPL-3.0-or-later",
