@@ -40,6 +40,7 @@ nlt.got		= require("got");
 nlt.os		= require("os");					//os information
 nlt.dns		= require("dns");					//domain resolver query
 nlt.exec	= require("child_process");			//execute external commands and shit
+nlt.mongo	= require("mongodb");
 nlt.util	= require("./lib/nlt-tools.js");	//utils and common commands
 nlt.db		= require("./lib/nlt-db.js");		//donk sqlite database
 nlt.conf	= require("./config/config.js");	//configuration
