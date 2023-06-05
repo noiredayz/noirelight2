@@ -25,7 +25,7 @@
     "cytube-connector": "https://github.com/Supinic/cytube-connector.git",
     "got": "11.x.x",
     "mime-types": "^2.1.31",
-    "mongodb": "~5.5.0",
+    "mongodb": "~5.6.0",
     "reconnecting-websocket": "^4.4.0",
     "ws": "^8.13.0"
   },
