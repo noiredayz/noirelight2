@@ -17,6 +17,7 @@ let pingtst_run = 0;
 let twcdctl		= new nlt.util.TCooldownController("twitch");
 let msgqExtCmd	= "";
 const joinDelay = 580; //in ms, limit is 20 joins per 10 secs for normal accounts
+const PAJBOT1_QUERY_TIMEOUT = 7500;	//in ms
 
 
 function ttvAuthenticate(forceUpdate=false){
@@ -553,7 +554,7 @@ function pbotBanphraseCheck(url, incmd){
 				'User-Agent': nlt.c.userAgent
 			},
 			body: 'message=' + incmd,
-			timeout: 2000,
+			timeout: PAJBOT1_QUERY_TIMEOUT,
 			retry: 2
 		};
 		nlt.got(https_options).json().then((d)=>{
