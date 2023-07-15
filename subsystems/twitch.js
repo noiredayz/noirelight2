@@ -17,7 +17,7 @@ let pingtst_run = 0;
 let twcdctl		= new nlt.util.TCooldownController("twitch");
 let msgqExtCmd	= "";
 const joinDelay = 580; //in ms, limit is 20 joins per 10 secs for normal accounts
-const PAJBOT1_QUERY_TIMEOUT = 7500;	//in ms
+const PAJBOT1_QUERY_TIMEOUT = nlt.c.pb1_timeout || 7500;
 
 
 function ttvAuthenticate(forceUpdate=false){
@@ -224,7 +224,7 @@ async function onReady(){
 	if(f){
 		cmstr="commit: "+String(f).substr(0, 6)+", ";
 	}
-	postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `noirePls connected (${cmstr}session: ${nlt.starttime})`);
+	postmsg(nlt.chctl.findChannel(nlt.identities["twitch"].login, "twitch"), `noirePls connected (${cmstr}session: ${nlt.starttime})`);
 	if(nlt.c.twitch.broadcast_online){
 		for(let i=0;i<nlt.channels.length;i++){
 			if(!nlt.channels[i]) continue;
@@ -269,7 +269,7 @@ function onError(ierror){
 async function onMessageArrive (inmsg) {
 	//Twitch specific messagearrive function
 	
-	if (inmsg.senderUsername === nlt.c.twitch.username) return;
+	if (inmsg.senderUsername === nlt.identities["twitch"].login) return;
 	
 	//easier to type Pepega Clap
 	let unick 	= inmsg.senderUsername;
@@ -327,7 +327,7 @@ async function onMessageArrive (inmsg) {
 		handled = nlt.cmd.process_special_message(inmsg, unick, channel, "twitch");
 
 	//if we got to this point then the message was not a command or a special line we handle as a command eShrug
-	const botname = new RegExp(nlt.c.twitch.username, "i");
+	const botname = new RegExp(nlt.identities["twitch"].login, "i");
 	if (!handled && botname.test(message) && !nlt.util.knownBots.has(unick.toLowerCase())){
 		if ((nlt.util.getunixtime() - lastbing) > 20){
 			lastbing = nlt.util.getunixtime();
@@ -355,11 +355,11 @@ async function onBan(inMsg){
 			nlt.cache.setd(cacheString, "NaM", 60);
 
 	if(inMsg.isPermaban()){
-		postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `#${channel} RIPBOZO @${username} has been permanently banned. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
+		postmsg(nlt.chctl.findChannel(nlt.identities["twitch"].login, "twitch"), `#${channel} RIPBOZO @${username} has been permanently banned. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
 		return;
 	}
 	if(inMsg.isTimeout()){
-		postmsg(nlt.chctl.findChannel(nlt.c.twitch.username, "twitch"), `MODS 👉🏽 #${channel} @${username} was timed out for ${nlt.util.donktime(duration)}. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
+		postmsg(nlt.chctl.findChannel(nlt.identities["twitch"].login, "twitch"), `MODS 👉🏽 #${channel} @${username} was timed out for ${nlt.util.donktime(duration)}. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
 	}
 }
 
