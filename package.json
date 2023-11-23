@@ -21,13 +21,13 @@
   ],
   "dependencies": {
     "@kararty/dank-twitch-irc": "~6.0.0",
-    "better-sqlite3": "^8.6.0",
+    "better-sqlite3": "^9.1.1",
     "cytube-connector": "https://github.com/Supinic/cytube-connector.git",
     "got": "11.x.x",
     "mime-types": "^2.1.31",
-    "mongodb": "~6.1.0",
+    "mongodb": "~6.3.0",
     "reconnecting-websocket": "^4.4.0",
-    "ws": "^8.14.0"
+    "ws": "^8.14.2"
   },
   "author": "Noiredayz",
   "license": "AGPL-3.0-or-later",
