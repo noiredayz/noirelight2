@@ -341,6 +341,7 @@ async function onBan(inMsg){
 	let duration = inMsg.banDuration;
 	let channel = inMsg.channelName;
 	let username = inMsg.targetUsername;
+	let retval = "", weblogURL="";
 	
 	if(nlt.channels[nlt.chctl.findChannel(channel, "twitch")].monitorbans!=1) return;
 	
@@ -353,14 +354,20 @@ async function onBan(inMsg){
 			return;
 		else
 			nlt.cache.setd(cacheString, "NaM", 60);
-
+	if(nlt.channels[nlt.chctl.findChannel(channel, "twitch")].webLog!="none"){
+		weblogURL = nlt.channels[nlt.chctl.findChannel(channel, "twitch")].webLog;
+		weblogURL = weblogURL.replace("LCHANNEL", channel).replace("USERNAME", username);
+	} else {
+		weblogURL = "(no logs available)";
+	}
+	
 	if(inMsg.isPermaban()){
-		postmsg(nlt.chctl.findChannel(nlt.identities["twitch"].login, "twitch"), `#${channel} RIPBOZO @${username} has been permanently banned. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
-		return;
+		retval = `#${channel} RIPBOZO @${username} has been permanently banned. ` + weblogURL;
 	}
 	if(inMsg.isTimeout()){
-		postmsg(nlt.chctl.findChannel(nlt.identities["twitch"].login, "twitch"), `MODS 👉🏽 #${channel} @${username} was timed out for ${nlt.util.donktime(duration)}. https://logs.ivr.fi/?channel=${channel}&username=${username}`);
+		retval = `MODS 👉🏽 #${channel} @${username} was timed out for ${nlt.util.donktime(duration)}. ` + weblogURL;
 	}
+	postmsg(nlt.chctl.findChannel(nlt.identities["twitch"].login, "twitch"), retval);
 }
 
 async function onUserState(inmsg){
