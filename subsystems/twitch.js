@@ -344,6 +344,7 @@ async function onBan(inMsg){
 	let retval = "", weblogURL="";
 	
 	if(nlt.channels[nlt.chctl.findChannel(channel, "twitch")].monitorbans!=1) return;
+	if(!(inMsg.isPermaban() || inMsg.isTimeout())) return;
 	
 	if(inMsg.isTimeout()){
 		if(duration<minTO) return;
