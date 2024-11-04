@@ -23,7 +23,7 @@
     "@kararty/dank-twitch-irc": "~6.2.0",
     "better-sqlite3": "^11.2.1",
     "cytube-connector": "https://github.com/Supinic/cytube-connector.git",
-    "got": "<11.9.9",
+    "got": "<14.4.5",
     "mime-types": "^2.1.31",
     "mongodb": "~6.8.0",
     "reconnecting-websocket": "^4.4.0",
