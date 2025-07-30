@@ -250,7 +250,7 @@ function onError(ierror){
 		RestartTwitch();
 		return;
 	}
-	if (String(ierror).match(/LoginError/)){
+	if (String(ierror).match(/LoginError/) || String(ierror).match(/Failed to login/)){
 		printtolog(LOG_WARN, `TMI being awesome as ever. Restarting the chatclient.`);
 		RestartTwitch();
 		return;
