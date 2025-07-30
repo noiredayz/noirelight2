@@ -347,7 +347,7 @@ async function onBan(inMsg){
 	if(!(inMsg.isPermaban() || inMsg.isTimeout())) return;
 	
 	if(inMsg.isTimeout()){
-		if(duration<minTO) return;
+		if(duration<minTO || duration%3600>0) return;
 	}
 	
 	let cacheString = "nlt2-twitch-"+channel+"-"+username+"-"+(inMsg.isPermaban()?"ban":"timeout");
