@@ -24,7 +24,7 @@
     "better-sqlite3": "^11.6.0",
     "cytube-connector": "https://github.com/Supinic/cytube-connector.git",
     "got": "<11.9.9",
-    "mime-types": "^2.1.31",
+    "mime-types": "^3.0.1",
     "mongodb": "~6.11.0",
     "reconnecting-websocket": "^4.4.0",
     "ws": "^8.18.0"
